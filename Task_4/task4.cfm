@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset=UTF-8>
+		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
 		<title>Task4</title>
 	</head>
 	<body>
+		<h1>Task 4</h1>
 		<cfset today=Now()>
 		<!---Today Date--->
 		<cfset todayDate=DateFormat(today,"yyyy-mm-dd")>
@@ -15,12 +16,13 @@
 
 		<!--Month In Word--->
 		<cfset currentMonthInWord=DateFormat(today,"mmmm")>
+
 		<!---Last Friday Date--->
 		<cfset daysToLastFriday=DayOfWeek(today)-6>
 		<cfif daysToLastFriday LTE 0 >
 			<cfset daysToLastFriday=daysToLastFriday+7>
 		</cfif>
-		<cfset lastFridayDate= DateAdd("d",-daysToLastFriday,todayDate)>
+		<cfset lastFridayDate= DateAdd("d",-daysToLastFriday,today)>
 		<cfset lastFriday=DateFormat(lastFridayDate,"yyyy-mm-dd")>
 
 		<!---Last Day of Month--->

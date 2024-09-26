@@ -7,15 +7,16 @@
 	</head>
 	<body>
 		<h2>TASK 14</h2>
-		<form name="img-form" action="" method="post">
+		<form name="img-form" action="uploadHandler.cfm" method="post">
 			<label for="img-name">Enter Image name</label>
-			<input type="text" id="img-name" name="imgName"><br><br>
+			<input type="text" id="img-name" name="imageName"><br><br>
 			<label for="description">Description</label>
-			<textarea id="description" row="5" cols="20"></textarea><br><br>
+			<textarea id="description" row="5" cols="20" name="description"></textarea><br><br>
 			<label for="img">Upload Image : </label>
-			<input type="file" name="img-upload" accept=".jpg,.png,.jpeg,.gif" id="img" required>
+			<input type="file" name="imageFile" accept=".jpg,.png,.jpeg,.gif" id="img" required>
 			<div id="imgError"></div><br>
 			<input type = "submit" value="Upload">	
 		</form>
+
 	</body>
 </html>

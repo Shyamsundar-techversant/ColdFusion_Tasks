@@ -1,0 +1,11 @@
+
+	.error{
+		color:red;
+		font-size:12px;
+	}
+	.odd{
+		color:blue;
+	}
+	.even{
+		color:green;
+	}

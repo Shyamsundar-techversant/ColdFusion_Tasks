@@ -15,7 +15,7 @@
 		<cfif structKeyExists(FORM,"grade")>
 			<cfset gradeObj=createObject("component","Components.task2")>
 			<cfset result=gradeObj.processGrade(form.grade)>	
-			<cfoutput>Result: #result#>
+			<cfoutput>Result: #result#</cfoutput>
 		</cfif>
 	</body>
 </html>

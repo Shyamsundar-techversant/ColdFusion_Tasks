@@ -2,6 +2,7 @@
 	<cffunction name="processGrade" access="public" returntype="string">
 		<cfargument name="grade" type="numeric" required="true">
 		<cfset var local.result="">
+		<cfset grade=arguments.grade>
 		<cfif grade EQ 5>
 			<cfset local.result="Very good">
 		<cfelseif grade EQ 4>
@@ -11,7 +12,6 @@
 		<cfelse>
 			<cfset local.result="Ok">
 		</cfif>
-
 		<cfreturn local.result>
 	</cffunction>
 </cfcomponent>

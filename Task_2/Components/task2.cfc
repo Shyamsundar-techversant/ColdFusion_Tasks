@@ -2,19 +2,21 @@
 	<cffunction name="processGrade" access="public" returntype="string">
 		<cfargument name="grade" type="numeric" required="true">
 		<cfset grade=arguments.grade>
+		<cfset var local.result="">
 		<cfswitch expression="#grade#">
 			<cfcase value=5>
-				<cfoutput>Very Good</cfoutput>
+				<cfset local.result="Very Good">
 			</cfcase>
 			<cfcase value=4>
-				<cfoutput>Good</cfoutput>
+				<cfset local.result="Good">
 			</cfcase>
 			<cfcase value=3>
-				<cfoutput>Fair</cfoutput>
+				<cfset local.result="Fair">
 			</cfcase>
 			<cfdefaultcase>
-				<cfoutput>Ok</cfoutput>
+				<cfset local.result="Ok">
 			</cfdefaultcase>
 		</cfswitch>
+		<cfreturn local.result>
 	</cffunction>
 </cfcomponent>

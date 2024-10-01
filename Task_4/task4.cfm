@@ -16,31 +16,32 @@
 		<cfset lastFriday=dateObj.lastFriday()>
 		<cfset lastDayMonth=dateObj.lastDateMonth()>
 
-		<cfoutput>#todayDate#</cfoutput><br>
-		<cfoutput>#monthInNumeric#</cfoutput><br>
-		<cfoutput>#monthInWords#</cfoutput><br>	
-		<cfoutput>#lastFriday#</cfoutput><br>
-		<cfoutput>#lastDayMonth#</cfoutput><br>
+		<cfoutput><p>Today Date : #todayDate#</p></cfoutput><br>
+		<cfoutput><p>Current Month In Numeric : #monthInNumeric#</p></cfoutput><br>
+		<cfoutput><p>Current Month In Words : #monthInWords#</p></cfoutput><br>	
+		<cfoutput><p>Last Friday Date : #lastFriday#</p></cfoutput><br>
+		<cfoutput><p>Last Day of Month : #lastDayMonth#</p></cfoutput><br>
 
 		 <!---Last Five Days--->
+		<h3>Last Five Days :</h3>
 		<cfloop from="0" to="4" index="i">
 			<cfset currentDate=DateAdd("d",-i,todayDate)>
 			<cfset formattedDate=DateFormat(currentDate,"dd-MMM-yyyy")>
 			<cfset dayofWeek=DayOfWeek(currentDate)><br>
 			<cfif dayofWeek EQ 1>
-				<cfoutput><div style="color:red">#formattedDate#-Sunday</div></cfoutput>
+				<cfoutput><div class="sun">#formattedDate#-Sunday</div></cfoutput>
 			<cfelseif dayofWeek EQ 2>
-				<cfoutput><div style="color:green">#formattedDate#-Monday</div></cfoutput>
+				<cfoutput><div class="mon">#formattedDate#-Monday</div></cfoutput>
 			<cfelseif dayofWeek EQ 3>
-				<cfoutput><div style="color:orange">#formattedDate#-Tuesday</div></cfoutput>
+				<cfoutput><div class="tue">#formattedDate#-Tuesday</div></cfoutput>
 			<cfelseif dayofWeek EQ 4>
-				<cfoutput><div style="color:yellow">#formattedDate#-Wednesday</div></cfoutput>
+				<cfoutput><div class="wed">#formattedDate#-Wednesday</div></cfoutput>
 			<cfelseif dayofWeek EQ 5>
-				<cfoutput><div style="color:black,font-weight:bold">#formattedDate#-Thursday</div></cfoutput>
+				<cfoutput><div class="thu">#formattedDate#-Thursday</div></cfoutput>
 			<cfelseif dayofWeek EQ 6>
-				<cfoutput><div style="color:blue">#formattedDate#-Friday</div></cfoutput>
+				<cfoutput><div class="fri">#formattedDate#-Friday</div></cfoutput>
 			<cfelseif dayofWeek EQ 7>
-				<cfoutput><div style="color:red,font-weight:bold">#formattedDate#-Saturday</div></cfoutput>
+				<cfoutput><div class="sat">#formattedDate#-Saturday</div></cfoutput>
 			</cfif>
 		</cfloop>
 	</body>

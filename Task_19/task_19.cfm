@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
@@ -18,7 +17,7 @@
 		</cfif>
 
 		<!--- Set the Updated Value of Cookie--->
-		<cfcookie name="VisitsCounter" value="#visits#" expires="#dateAdd('n', 1, now())#">
+		<cfcookie name="VisitsCounter" value="#visits#" expires="#dateAdd('n', 5, now())#">
 		<cfoutput>You visited the website #visits# times.</cfoutput>
 		
 		<script>

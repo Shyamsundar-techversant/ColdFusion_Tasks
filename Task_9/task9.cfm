@@ -29,8 +29,7 @@
 			<cfelse>
 				<cfset session.formData[keyToAdd]=valueToAdd>
 				<cfdump var="#session.formData#">
-			</cfif>
-			
+			</cfif>			
 		<cfelse>
 			<cfoutput>Invalid Inputs</cfoutput>
 		</cfif>

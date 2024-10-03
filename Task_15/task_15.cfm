@@ -3,7 +3,7 @@
 	<!-- Call multiply(1, 2) using cfinvoke -->
 	<h2>By invoke </h2>
 	<cfinvoke component="Components.task_15" method="multiply" returnvariable="result1">
-    	<cfinvokeargument name="1" value="1">
+    		<cfinvokeargument name="1" value="1">
 		<cfinvokeargument name="2" value="2">
 	</cfinvoke>
 	<cfoutput>Result of multiply(1, 2): #result1#</cfoutput><br>

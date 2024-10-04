@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Task 23</title>
+		<link href="style.css" rel="stylesheet">
+	</head>	
+	<body>
+		<!--- Form Section --->
+		<section class="form-section">
+			<div class="container">
+				<form class="user-details" action="" method="post">
+					<div class="form-header">				
+						<span class="logo">WUFOO</span>
+						<span class="sponsor">by SurveyMonkey</span>
+					</div>
+					<div class="form-body">
+						<div class="form-body-head">
+							<span class="emp-application">Employment Application</span>
+							<span class="incorporation">Infinity Box Inc.</span>
+						</div>
+						<ul class="job-details">
+							<li>
+								<label for="position" class="form-label emp-label">Which position you are looking for ?</label>
+								<select name="position" id="position" class="data-field">
+									<option value="" selected></option>
+									<option value="Interface Designer">Interface Designer</option>
+									<option value="Software Engineer">Software Engineer</option>
+									<option value="System Administrator">System Administrator</option>
+									<option value="Operation Manager">Operation Manager</option>
+								</select>
+							</li>
+							<li>
+								<label class="form-label emp-label">Are you willing to relocate ?</label>
+								<div class="relocation">
+									<input type="radio" id="Yes" name="relocate" value="Yes">
+									<label for="Yes">Yes</label>
+								</div>
+								<div class="relocation">
+									<input type="radio" id="No" name="relocate" value="No">
+									<label for="No">No</label>
+								</div>
+							</li>
+							<li>
+								<label for="join-date" class="form-label emp-label">When can you start ?</label>
+								<input type="date" id="join-date" name="join-date" class="data-field">
+							</li>
+							<li>
+								<label for="portfolio" class="form-label">Personal Website</label>
+								<input type="text" id="portfolio" name="portfolio" class="data-field">
+							</li>
+							<li>
+								<label for="resume" class="form-label">Attach a copy of your resume</label>
+								<input type="file" id="resume" name="resume">	
+							</li>
+							<li>
+								<label for="salary" class="form-label">Salary requirments</label>
+								<span><span id="dollar">$</span><input type="text" id="salary" name="salary" class="data-field"></span>
+							</li>
+						</ul>
+						<h6 class="contact-info-head">Your Contact Information</h6>
+						<ul class="personal-details">
+							<li>
+								<label for="name" class="form-label emp-label">Name</label>
+								<div class="name-details">
+									<div>
+										<label for="firstname" class="form-label">First :</label>
+										<input type="text" id="firstname" name="firstName" class="data-field">
+									</div>
+									<div>
+										<label for="lastname" class="form-label">Last :</label>
+										<input type="text" id="lastname" name="lastName" class="data-field">
+									</div>
+								</div>		
+							</li>
+							<li>
+								<label for="email" class="form-label emp-label">Email Address</label>
+								<input type="email" id="email" name="empEmail" class="data-field">
+							</li>
+							<li>
+								<label for="mob" class="form-label emp-label">Phone</label>
+								<input type="tel" id="mob" class="data-field" name="phone">
+							</li>
+							<li>
+								<input type="submit" value="Submit" class="submit">
+							</li>
+						</ul>
+						<div class="terms">
+							<p>This site is protected by reCAPTCHA Enterprise and the Google
+								 <a href="#">Privacy Policy</a>and <a href="#">Terms of Service</a> apply.
+							</p>
+						</div>
+					</div>
+				</form>	
+			</div>
+		</section>
+	</body>		
+</html>

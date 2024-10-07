@@ -18,8 +18,8 @@
 				<cfqueryparam value="#arguments.formData.phone#" cfsqltype="cf_sql_varchar">
 				)
 			</cfquery>
-			<cfset result="Data added successfully ">
-			<cfreturn result>
+			<cfset local.result="Data added successfully ">
+			<cfreturn local.result>
 		<cfcatch type="exception">
 			<cfoutput> #cfcatch.message#</cfoutput>
 			<cfreturn false>

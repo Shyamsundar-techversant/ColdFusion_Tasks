@@ -15,7 +15,7 @@
         firstName = form.firstName,
         lastName = form.lastName,
         empEmail = form.empEmail,
-        phone = form.phone
+        phone =form.phone
 }>
 
 <cfset result = createObject("component","Components.task23").saveData(formData)>

@@ -1,0 +1,52 @@
+*{
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+}
+body{
+	background:#a8b3ae;
+}
+.form-section{
+	max-width:1200px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:10px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+.container{
+	width:100%;
+	max-width:350px;
+	padding:45px 25px;
+	background:white;
+	border-radius:16px;
+}
+.header{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+.header h4{
+	font-size:24px;
+	padding-bottom:20px;
+}
+input{
+	padding:10px 15px;
+	width:100%;
+	border-radius:16px;
+	border:1px solid black;
+}
+input:focus{
+	outline:none;
+	
+}
+.user-data{
+	display:flex;
+	flex-direction:column;
+	gap:20px;
+}
+.submit-form:hover{
+	background:black;
+	color:white;
+}

@@ -2,6 +2,7 @@
 		<cffile action="upload" filefield="imageFile" destination="C:\ColdFusion2021\cfusion\wwwroot\CF_Tasks\Task_14\Images"
 				nameconflict="makeunique">
 		<cfset imageFilePath="C:\ColdFusion2021\cfusion\wwwroot\CF_Tasks\Task_14\Images\#cffile.SERVERFILE#">	
+		<cfdump var="#cffile#" abort>
 
 		<!--- Create Thumbnail Path--->	
 		<cfset thumbNailFilePath="C:\ColdFusion2021\cfusion\wwwroot\CF_Tasks\Task_14\Thumbnail\thumb_#cffile.SERVERFILE#">

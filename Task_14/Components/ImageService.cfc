@@ -1,52 +1,44 @@
-	<cfcomponent>
-		<!---Method to upload image--->
+<cfcomponent>
+	<cffunction name="uploadImage" access="public" returntype="struct">
+		<cfargument name="form" required="true">
+		<cfargument name="fileField" required="true">
+		<cfset var local = {}> <!-- Create local scope -->
 
-		<cffunction name="uploadImage" access="public" returntype="struct">
-			<cfargument name="form" required="true">
-			<cfargument name="fileField" required="true">
-			<cfset var imageDetails={}>
-			<cfset var allowedExtensions="jpg,jpeg,png,gif">
-			<cfset var maxFileSize=1*1024*1024>
-				
-			<cftry>
-				<!---Upload Image--->
-				<cffile action="upload" filefield="#arguments.fileField#" destination="C:/ColdFusion2021/cfusion/wwwroot/CF_Tasks/Task_14/Images" 				accept="#allowedExtensions#" nameconflict="makeunique">	
-				
-				<!---File Type validaton--->
-				<cfif cffile.clientFileExt NOT IN listToArray(allowedExtensions)>
-					<cfthrow message="Invalid file type.Please upload jpg,png,or gif files only">
-				</cfif>
+		<cftry>
+			<!-- Upload Image -->
+			<cffile action="upload" 
+					fileField="#arguments.fileField#" 
+					destination="C:\ColdFusion2021\cfusion\wwwroot\CF_Tasks\Task_14\Images" 
+					nameConflict="makeunique">
 
-				<!---File size validation--->
-				<cfif cffile.fileSize GT maxFileSize>
-					<cfthrow message="File size cannot exceeds 1 MB">	
-				</cfif>	
+			<!-- Thumbnail Creation -->
+			<cfset local.thumbnailFileName = "thumb_#cffile.serverFile#">
+			<cfimage source="#cffile.serverDirectory##cffile.serverFile#" 
+					 action="resize" 
+					 width="20" 
+					 height="20" 
+					 destination="#cffile.serverDirectory##local.thumbnailFileName#">
 
-				<!--- Thumbnail Creation--->
-				<cfset var thumbnailFileName="thumb_#cffile.serverFile#">
-				<cfimage source="#cffile.serverDirectory##cffile.serverFile#" action="resize" width="20" height="20" 								destination="#cffile.serverDirectory##thumbNailFileName#">
+			<!-- Store Image Details -->
+			<cfset local.imageDetails = {
+				"imageName" = arguments.form.imageName,
+				"description" = arguments.form.description,
+				"fileName" = cffile.serverFile,
+				"filePath" = cffile.serverDirectory,
+				"fileUrl" = "/CF_Tasks/Task_14/Images/#cffile.serverFile#",
+				"thumbnailUrl" = "/CF_Tasks/Task_14/Images/#local.thumbnailFileName#"
+			}>
 
-				<!---Store Image Details--->
-				<cfset local.imageDetails={
-					"imageName"=arguments.form.imageName,
-					"description"=arguments.form.description,
-					"fileName"=cffile.serverFile,
-					"filePath"=cffile.serverDirectory,
-					"fileUrl"=C:/ColdFusion2021/cfusion/wwwroot/CF_Tasks/Task_14/Images/#cffile.serverFile#,
-					"thumbnailUrl"=C:/ColdFusion2021/cfusion/wwwroot/CF_Tasks/Task_14/Images/#thumbNailFileName#
-				}>
-				
-				<!---Store Image In Session--->
-				<cfif NOT sturctKeyExists(session,"uploadedImages")>
-					<cfset session.uploadedImages=[]>
-				</cfif>
-				<cfset arrayAppend(session.uploadedImages,imageDetails)>
+			<!-- Store Image In Session -->
+			<cfif NOT structKeyExists(session, "uploadedImages")>
+				<cfset session.uploadedImages = []>
+			</cfif>
+			<cfset arrayAppend(session.uploadedImages, local.imageDetails)>
 
-				<cfreturn imageDetails>	
-			<cfcatch>
-				<cfthrow message="Upload Failed:#cfcatch.message#>
-			</cfcatch>		
-			</cftry>	
-		</cffunction>
-
-	</cfcomponent>
+			<cfreturn local.imageDetails>	
+		<cfcatch>
+			<cfthrow message="Upload Failed: #cfcatch.message#">
+		</cfcatch>		
+		</cftry>
+	</cffunction>
+</cfcomponent>

@@ -10,7 +10,7 @@
 			<cfquery name="firstName" datasource="coldfusion">
 				SELECT firstname
 				FROM name
-				LIMIT 1 OFFSET <cfqueryparam value="#local.data#" cfsqltype="cf_sql_integer">
+				LIMIT 1 OFFSET <cfqueryparam value="#local.data - 1#" cfsqltype="cf_sql_integer"> <!-- OFFSET is Zero based--->
 			</cfquery>
 			<cfset local.returnData.totalData=totalData>
 			<cfset local.returnData.firstName=firstName.firstname>

@@ -17,7 +17,6 @@
 		</form>
 		
 		<h2>Output</h2>
-		<cfapplication name="form" sessionManagement="true" sessionTimeout="#createTimeSpan(0,0,2,0)#">
 		<cfif structKeyExists(FORM,"value1") AND structKeyExists(FORM,"value2")>
 			<cfset keyToAdd=FORM.value1>
 			<cfset valueToAdd=FORM.value2>

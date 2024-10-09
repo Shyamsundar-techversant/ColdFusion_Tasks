@@ -14,7 +14,6 @@
 			<input type="text" id="value2" name="value2"><br><br>
 			<input type ="submit" value="Submit">
 		</form>
-		<cfapplication  name="Form" sessionManagement="true" sessionTimeout="#createTimeSpan(0,0,2,0)#">
 		<cfif structKeyExists(FORM,"value1") AND structKeyExists(FORM,"value2")>
 			<cfif NOT structKeyExists(session,"formData")>
 				<cfset session.formData=structNew()>

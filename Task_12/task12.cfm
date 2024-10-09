@@ -14,12 +14,12 @@
 			<input type="submit" value="Submit">
 		</form>
 		
-		<cfif structKeyExists(FORM,"value")>
-		
-			<cfquery name="name" datasource="coldfusion">
-				SELECT * FROM name;
-			</cfquery>
-			<cfdump var="#name#">
+		<h2>Result</h2>
+		<cfif structKeyExists(form,"value")>
+			<cfset dbObj=createObject("component","Components.dbComponent")>
+			<cfset result=dbObj.nameFun(#form.value#)>
+			Total Data:<cfdump var="#result.totalData#"><br>
+			Firstname:<cfdump var="#result.firstName#">
 		</cfif>
 	</body>
 </html>

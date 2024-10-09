@@ -4,7 +4,7 @@ $(document).ready(function(){
 		let email=$('#email').val();
 		if(email){
 			$.ajax({	
-				url:'checkEmail.cfm',
+				url:'checkEmail.cfc',
 				type:'POST',
 				data:{email:email},
 				dataType:json,

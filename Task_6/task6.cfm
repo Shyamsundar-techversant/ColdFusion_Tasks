@@ -19,8 +19,8 @@
 
 		<cfif structKeyExists(FORM,"value1") AND structKeyExists(FORM,"value2")>
 			<cfset formData={}>
-			<cfset formData["#FORM.value1#"]=#FORM.value2#>
-			<cfdump var=#formData#>
+			<cfset formData[FORM.value1]=FORM.value2>
+			<cfdump var="#formData#">
 		<cfelse>
 			<cfoutput>Invalid Input</cfoutput>
 		</cfif>

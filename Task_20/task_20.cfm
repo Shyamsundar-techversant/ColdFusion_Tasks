@@ -7,10 +7,8 @@
 	</head>
 	<body>
 		<!---Genereate Captcha Text--->
-		<cfapplication  name="Form" sessionManagement="true" sessionTimeout="#createTimeSpan(0,0,2,0)#">
 		<cfif NOT structKeyExists(session,"captchaText") OR NOT structKeyExists(form,"captchaUser")>
-			<cfset captchaText=createUUID()>
-			<cfset session.captchaText=left(captchaText,6)>
+			<cfset session.captchaText=left(application.captchaText,6)>
 		</cfif>
 		<!---Store the Captch text in Session--->
 

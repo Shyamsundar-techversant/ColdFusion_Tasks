@@ -6,7 +6,7 @@
 		<title>Task 21</title>
 	</head>
 	<h1>Task 21</h1>
-	<form name="greeting-form" action="birthday.cfm" method="post">
+	<form name="greeting-form" action="" method="post" enctype="multipart/form-data">
 		<label for="baby-name">Enter Birthday Babay's Name : </label>
 		<input type="text" id="baby-name" name="babyName"><br><br>
 		<label for="email-id">Enter Email ID : </label>
@@ -17,4 +17,14 @@
 		<input type="file" id="greetingImage" name="greetImg"><br><br>
 		<input type="submit" value="Submit">
 	</form>
+	<cfif structKeyExists(form,"babyName") AND structKeyExists(form,"emailId") AND structKeyExists(form,"bdayWish") AND structKeyExists(form,"greetImg")>
+		<cffile action="upload" filefield="greetImg" destination="#application.imageSavePath#" nameconflict="makeunique">
+		<cfset imageFile="#application.imageSavePath#\#cffile.SERVERFILE#">
+		<cfset babyName=form.babyName>
+		<cfset emailId=form.emailId>
+		<cfset bdayWish=form.bdayWish>
+		<cfset mailObj=createObject("component","Components.birthday")>
+		<cfset result=mailObj.sendMail("#babyName#","#emailId#","#bdayWish#","#imageFile#")>
+		<cfoutput>#result#</cfoutput>
+	</cfif>
 </html>

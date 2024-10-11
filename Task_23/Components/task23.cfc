@@ -4,7 +4,7 @@
         	<cftry>
        		 <!---       Insert Into Database       --->
 			<cfquery datasource="coldfusion">
-				INSERT INTO JobApplications (position, relocate, join_date, portfolio,resumePath,salary, first_name, last_name, email, phone)
+				INSERT INTO JobApplications (position, relocate, join_date, portfolio,resumePath,salary, first_name, last_name, email, 				phone)
 				VALUES (
 				<cfqueryparam value="#arguments.formData.position#" cfsqltype="cf_sql_varchar">,
 				<cfqueryparam value="#arguments.formData.relocate#" cfsqltype="cf_sql_varchar">,

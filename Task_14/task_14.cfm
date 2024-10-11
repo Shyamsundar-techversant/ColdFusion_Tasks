@@ -26,12 +26,15 @@
 			<cfset imageName=form.imageName>
 			<cfset description=form.description>
 			<cffile action="upload" fileField="imageFile" destination="#application.imageSavePath#" nameconflict="makeunique">
-			<cfset imageFilePath="#application.imageSavePath##cffile.SERVERFILE#">
+			<cfset imageFilePath="#application.imageSavePath#\#cffile.SERVERFILE#">
 			<cfset imageFile="#cffile.SERVERFILE#">
 			<!---Create Thumbnail path--->
-			<cfset thumbNailPath="#application.thumbPath#thumb_#cffile.SERVERFILE#">
+			<cfset thumbNailPath="#application.thumbPath#\thumb_#cffile.SERVERFILE#">
 			<cfset imgObj=createObject("component","Components.thumbnail")>
-			<cfset result=imgObj.imgToThumbNail("#imageName#","#description#","#imageFile#")>			
+			<cfset result=imgObj.imgToThumbNail("#imageName#","#description#","#imageFilePath#","#thumbNailPath#","#imageFile#")>	
+			<cfif result>
+				<cfoutput><a href="imageList.cfm">ImageList</a></cfoutput>	
+			</cfif>	
 		</cfif> 
 	</body>
 </html>

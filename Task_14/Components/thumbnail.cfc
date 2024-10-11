@@ -2,7 +2,9 @@
 	<cffunction name="imgToThumbNail" access="public" returntype="boolean">
 		<cfargument name="imageName" type="string" required="true">
 		<cfargument name="description" type="string" required="true">
-		<cfargument name="imageFile" required="true" type="string">
+		<cfargument name="imageFilePath" type="string" required="true">
+		<cfargument name="thumbNailPath" type="string" required="true">
+		<cfargument name="imageFile" type="string" required="true">
 		<cftry>
 			<!--- Resize the image--->
 			<cfimage 
@@ -22,13 +24,13 @@
 				"thumbNailUrl"= "./Thumbnail/thumb_#arguments.imageFile#"
 				}>	
 			<!--- Append new image details to new session array--->
-			
+			<cfset arrayAppend(session.uploadedImages,newImageDetails)>
 			<cfreturn true>
 		<cfcatch>
-
+			<cfoutput>#cfcatch.message#</cfoutput>
+			<cfreturn false>
 		</cfcatch>
 		</cftry>	
 		<cfreturn true>
-
 	</cffunction>
 </cfcomponent>

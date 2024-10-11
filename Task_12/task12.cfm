@@ -17,7 +17,8 @@
 		<cfif structKeyExists(form,"value")>
 			<cfset dbObj=createObject("component","Components.dbComponent")>
 			<cfset result=dbObj.nameFun(#form.value#)>
-			<cfdump var="#result#">
+			Total Data:<cfdump var="#result.totalData#"><br>
+			Firstname:<cfdump var="#result.firstName#">
 		</cfif>
 	</body>
 </html>

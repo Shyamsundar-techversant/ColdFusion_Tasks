@@ -6,8 +6,11 @@
 			<cfloop array="#words#" index="word">
 				<cfif len(word) GT 0>
 					<cfquery datasource="coldfusion">
-						INSERT INTO wordData(words)
-						VALUES(<cfqueryparam value="#word#" cfsqltype="cf_sql_varchar">)
+						INSERT INTO
+						 	wordData(words)
+						VALUES(
+							<cfqueryparam value="#word#" cfsqltype="cf_sql_varchar">
+						)
 					</cfquery>		
 				</cfif>
 			</cfloop>
@@ -23,17 +26,23 @@
 		<cfset local.result=structNew()>
 		<cftry>
 			<cfquery datasource="coldfusion" name="local.countWords">
-				SELECT words,COUNT(words) AS wordCount
-				FROM wordData
-				WHERE LENGTH(words) >=3 AND 
-				words NOT LIKE '%[0-9]%'
-				GROUP BY words
+				SELECT 
+					words,
+					COUNT(words) AS wordCount
+				FROM 
+					wordData
+				WHERE 
+					LENGTH(words) >=3 
+				AND 
+					words NOT LIKE '%[0-9]%'
+				GROUP BY 
+					words
 				ORDER BY 
-				wordCount DESC,
-				LENGTH(words) DESC,
-				words ASC; 
+					wordCount DESC,
+					LENGTH(words) DESC,
+					words ASC; 
 			</cfquery>
-			<cfset local.result.countWords=#local.countWords#>
+			<cfset local.result.countWords=local.countWords>
 			<cfreturn local.result>
 		<cfcatch>
 			<cfoutput>#cfcatch.message#</cfoutput>

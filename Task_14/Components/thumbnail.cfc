@@ -16,15 +16,15 @@
 			<!--- Store image details into sesssion--->
 			<cfif NOT structKeyExists(session,"uploadedImages")>
 				<cfset session.uploadedImages=[]>
-			</cfif>		
-			<cfset newImageDetails={
-				"imageName"=#arguments.imageName#,
-				"description"=#arguments.description#,
-				"imageUrl"= "./Images/#arguments.imageFile#",
-				"thumbNailUrl"= "./Thumbnail/thumb_#arguments.imageFile#"
-				}>	
-			<!--- Append new image details to new session array--->
-			<cfset arrayAppend(session.uploadedImages,newImageDetails)>
+				<cfset newImageDetails={
+					"imageName"=#arguments.imageName#,
+					"description"=#arguments.description#,
+					"imageUrl"= "./Images/#arguments.imageFile#",
+					"thumbNailUrl"= "./Thumbnail/thumb_#arguments.imageFile#"
+					}>	
+				<!--- Append new image details to new session array--->
+				<cfset arrayAppend(session.uploadedImages,newImageDetails)>
+			</cfif>
 			<cfreturn true>
 		<cfcatch>
 			<cfoutput>#cfcatch.message#</cfoutput>

@@ -16,18 +16,14 @@
 		<h2>Result:</h2>
 		<cfif structKeyExists(form,"textData")>
 			<cfset text=trim(form.textData)>
-			<!---Split the text into individual words--->
+			<!--- Split the text into individual words --->
 			<cfset wordList = listToArray(text, " ,.!?")>
 			<var dump="#wordList#">
-			<cfloop array="#wordList#" index="word">
-				<cfif len(word) GT 0>
-					<cfquery datasource="coldfusion">
-						INSERT INTO wordData(words)
-						VALUES(<cfqueryparam value="#word#" cfsqltype="cf_sql_varchar">)
-					</cfquery>		
-				</cfif>
-			</cfloop>
-			<cfoutput>#arrayLen(wordList)# words have been inserted into the database.</cfoutput>
+			<cfset addObj=createObject("component","Components.task_25")>
+			<cfset result=addObj.addWordsToDb("#wordList#")>
+			<cfif result>
+				<cfoutput>#arrayLen(wordList)# words have been inserted into the database.</cfoutput>
+			</cfif>
 		<cfelse>
 			<cfoutput>No data received.</cfoutput>
 		</cfif>

@@ -1,22 +1,13 @@
-<cfquery datasource="coldfusion" name="wordCounts">
-	SELECT words,COUNT(words) AS wordCount
-	FROM docData
-	WHERE LENGTH(words) >=3 AND 
-	words NOT LIKE '%[0-9]%'
-	GROUP BY words
-	ORDER BY 
-	wordCount DESC,
-	LENGTH(words) DESC,
-	words ASC; 
-</cfquery>
 <h2>Result:</h2>
-<cfif wordCounts.recordCount GT 0>
+<cfset wordObj=createObject("component","Components.task_26")>
+<cfset result=wordObj.wordCounts()>
+<cfif result.countWords.recordCount GT 0>
 	<table border="1">
         	<tr>
 			<th>Word</th>
 			<th>Count</th>
 		</tr>
-        <cfloop query="wordCounts">
+        <cfloop query="result.countWords">
             <tr>
                 <td><cfoutput>#words#</cfoutput></td>
                 <td><cfoutput>#wordCount#</cfoutput></td>

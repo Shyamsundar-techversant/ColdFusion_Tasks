@@ -1,15 +1,15 @@
-$(document).ready(function(){
-	
-	$('#check-email').click(function(){
+$(document).ready(function(){	
+	$('#check-btn').click(function(){
+        	let firstName=$('#firstname').val();
 		let email=$('#email').val();
-		if(email){
+		if(email &&  firstName){
+			alert("haii");
 			$.ajax({	
-				url:'checkEmail.cfc',
+				url:'./Components/checkEmail.cfc?method=checkEmail',
 				type:'POST',
-				data:{email:email},
-				dataType:json,
-				success:function(response){
-						if(response.exists){
+				data:{firstname:firstName,email:email},
+				success:function(!response){
+						if(response.trim()==="false"){
 							$('#email-error').text('Mail Id already Exists');
 							$('#submit-btn').prop('disabled',true);
 						}
@@ -17,15 +17,14 @@ $(document).ready(function(){
 							$('#email-error').text('');
 							$('#submit-btn').prop('disabled',false);
 						}	
-				},
-				error:function(){
-					alert("An Error Occured");
-				}	
+					},
+					error:function(){
+						alert("An Error Occured");
+					}	
 			});
 		}
 		else{
 			alert("Please enter an email Id");
-		}		
+		}			
 	});
-})
-
+});

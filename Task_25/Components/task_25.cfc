@@ -19,7 +19,7 @@
 	</cffunction>
 
 	<!--- Count Words --->
-	<cffunction name="wordCounts" access="public" returntype="struct">
+	<cffunction name="wordCounts" access="public" returntype="query">
 		<cfset local.result=structNew()>
 		<cftry>
 			<cfquery datasource="coldfusion" name="local.countWords">

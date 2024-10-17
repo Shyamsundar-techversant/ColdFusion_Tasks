@@ -4,3 +4,4 @@ CREATE TABLE subscription(
     email VARCHAR(40)
 );
 select * from subscription;
+drop table subscription;

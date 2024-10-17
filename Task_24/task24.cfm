@@ -16,11 +16,11 @@
 		</form> 
 
 		
-		<cfif structKeyExists(form,"firstname") AND structKeyExists(form,"email")>
+ 		<cfif structKeyExists(form,"firstname") AND structKeyExists(form,"email")> 
 			<cfset dbObj=createObject("component","Components.checkEmail")>
 			<cfset result=dbObj.insertData("#form.firstname#","#form.email#")>	
-		</cfif>		
-		<script src="jquery-3.7.1.js"></script>
-		<script src="script.js"></script> 
+		</cfif>	
+		<script src="./Js/jquery-3.7.1.min.js"></script>
+		<script src="./Js/script.js"></script> 
 	</body>
 </html>

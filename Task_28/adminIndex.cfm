@@ -22,8 +22,7 @@
 						<th>PageDesc</th>
 						<th>Options</th>
 					</tr>
-					<cfoutput>
-						<cfloop query="#result#"> 
+					<cfoutput query="result">						
 							<tr>
  								<td>#result.pagename#</td>
 								<td>#result.pagedesc#</td>
@@ -34,8 +33,7 @@
 										Delete
 									</button>
 								</td>
-							</tr>
-						</cfloop>
+							</tr>					
 					</cfoutput>
 				</table>
 			</div>

@@ -30,7 +30,7 @@
 								<td>
 									<button class="btn opt-btn">
 										<a href="adminEdit.cfm?id=#result.pageid#">Edit</a>													</button>
-									<button class="btn opt-btn" id="delete-button" onclick="displayDeletePage(#result.pageid#)">
+									<button class="btn opt-btn delete-button" data-id="#result.pageid#">
 										Delete
 									</button>
 								</td>
@@ -46,11 +46,11 @@
 				<p class="dlt-content">Are you want to delete page?</p>
 			</div>
 			<div class="dlt-buttons">
-				<button class="cancel-btn dlt-btn" onclick="closeDeletePage()">Cancel</button>
+				<button class="cancel-btn dlt-btn close-page">Cancel</button>
 				<button class="delete-btn dlt-btn" >Yes</button>
 			</div>
 		</div>
-		<div id="overlay" onclick="closeDeletePage()">
+		<div id="overlay" class="close-page">
 		</div>
 		<script src="./Js/jquery-3.7.1.min.js"></script>
 		<script src="script.js"></script>

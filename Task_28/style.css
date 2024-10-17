@@ -165,7 +165,7 @@ td{
 	left: 500px;
 	display:none;
 }
-#delete-button{
+.delete-button{
 	background:red;
 	color:white;
 	padding:10px 15px;

@@ -18,8 +18,12 @@
 							<i class="fa-solid fa-address-book"></i>	
 						</div>
 						<div class="reg-buttons">
-							<button class="btn sign-up" onclick="signUpForm()"><i class="fa-solid fa-user"></i>SignUp</button>
-							<button class="btn log-in" onclick="logInForm()"><i class="fa-solid fa-right-to-bracket"></i>LogIn</button>		
+							<button class="btn sign-up" onclick="signUpForm()"><i class="fa-solid fa-user"></i>
+								<a href="signup.cfm">SingUp</a>
+							</button>
+							<button class="btn log-in" onclick="logInForm()"><i class="fa-solid fa-right-to-bracket"></i>
+								<a href="logIn.cfm">LogIn</a>
+							</button>		
 						</div>
 					</nav>
 				</div>			
@@ -39,14 +43,14 @@
 										</div>
 										<div class="user-inputs mb-3">
 											<input type="text" id="username" name="username" placeholder="Username" 
-											class="form-control">							
+											class="form-control" required>							
 										</div>
 										<div class="user-inputs mb-3">
 											<input type="password" id="password" name="password"
-											 placeholder="Password" class="form-control">				
+											 placeholder="Password" class="form-control" required>				
 										</div>
 										<div class="user-inputs ">
-											<button type="submit" class="sign" id="logIn">LogIn</button>		
+											<button type="submit" class="sign" id="logIn" name="submit">LogIn</button>		
 										</div>
 									</form>
 								</div>
@@ -55,8 +59,6 @@
 					</div>
 				</div>
 			</section>
-		</section>
-		<script src="./js/bootstrap.bundle.min.js"></script>
-		<script src="script.js"></script>	
+		</section>	
 	</body>
 </html>

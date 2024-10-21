@@ -6,6 +6,11 @@
 body{
 	background:#d7e1ef !important;
 }
+a{
+	text-decoration:none !important;
+	color:#fff !important;
+	width:100% !important;
+}
 .header{
 	width:100%;
 	background:#2e77b1;
@@ -36,9 +41,10 @@ body{
 	justify-content:flex-end;
 	gap:15px;
 }
-.sign-up i,log-in i{
+.sign-up i,.log-in i{
 	color:white;	
 }
+
 
 /* Form Section*/
 .user-registration{
@@ -114,4 +120,56 @@ body{
 .error{
 	font-size:12px;
 	color:red;
+}
+
+/* Home Page*/
+.user-details{
+	padding-top:30px;
+}
+.user-options{
+	background:#fff;
+	padding:5px;
+	width:100%;
+	display:flex;
+	justify-content:flex-end;
+}
+.users{
+	padding-top:25px;
+}
+.create-profile{
+	width:100%;
+	max-width:150px;
+	background:#fff;
+	padding:10px;
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+	gap:20px;
+}
+.user-img-logo{
+	width:70px;
+	height:70px;
+	background:#d7e1ef;
+	border-radius:50%;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+.user-img-logo i{
+	color:black;
+	font-size:28px;
+}
+.user-creation{
+	padding:7px 10px !important;
+	font-size:12px !important;
+	border-radius:20px !important;
+	color:#fff !important;
+	background:#2e77b1 !important;
+}
+
+/* Backend form validation */
+.validation-error{
+	color:red;
+	font-size:12px;
 }

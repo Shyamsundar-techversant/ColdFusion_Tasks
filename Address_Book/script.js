@@ -1,3 +1,8 @@
+//Prevent resubmit on refresh and back button
+	if(window.history.replaceState){
+		window.history.replaceState(null,null,window.location.href);
+	}
+
 let logIn=document.getElementById('logIn');
 let signUp=document.getElementById('signUp');
 let fullName=document.getElementById('fullname');
@@ -14,6 +19,7 @@ let usernameError=document.getElementById('username-error');
 let passwordError=document.getElementById('password-error');
 let confirmError=document.getElementById('confirm-error');
 let formError=document.getElementById('form-error');
+let validationError=document.getElementById('validation-error');
 
 function validateFname(){
 	if(fullName.value.length===0){
@@ -75,13 +81,44 @@ function validatePassword(){
 function validateConfPass(){
 	let passwordOrg=password.value;
 	let confPass=confirmPassword.value;
-	if(confPass===passwordOrg){
+	if(confPass.length===0){
+		confirmError.textContent="*This field is required";
+		return false;
+	}
+	else if(confPass===passwordOrg){
 		confirmError.textContent=" ";
 		return true;
 	}
 	else{
 		confirmError.textContent="*Password doesn't match with the original";
+		return false;
 	}
+}
+
+function submitForm(){
+	if(!validateFname()){
+		event.preventDefault();
+		validationError.textContent="Complete the form";
+	}
+	if(!validateEmail()){
+		event.preventDefault();
+		validationError.textContent="Complete the form";		
+	}
+	if(!validateUserName()){
+		event.preventDefault();
+		validationError.textContent="Complete the form";
+	}
+	if(!validatePassword()){
+		event.preventDefault();
+		validationError.textContent="Complete the form";
+	}
+	if(!validateConfPass()){
+		event.preventDefault();
+		validationError.textContent="Complete the form";
+	}
+	setTimeout(()=>{
+		validationError.textContent="";
+	},5000)
 }
 
 

@@ -1,3 +1,29 @@
+<cfif structKeyExists(form,"submit")>
+
+
+	 <cfset variables.validationResult =application.dbObj.validateForm(
+							form.fullName,
+							form.userEmail,
+							form.username,
+							form.password,
+							form.passwordConf
+						)
+	>
+
+
+	<!---<cfif arrayLen(validationResult) EQ 0>
+		<cfset regUser=application.dbObj.registerUser(
+								form.fullName,
+								form.userEmail,
+								form.username,
+								form.password,
+								form.passwordConf							
+							)
+		>
+	</cfif> --->
+		
+</cfif>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,8 +44,8 @@
 							<i class="fa-solid fa-address-book"></i>	
 						</div>
 						<div class="reg-buttons">
-							<button class="btn sign-up"><i class="fa-solid fa-user"></i>SignUp</button>
-							<button class="btn log-in"><i class="fa-solid fa-right-to-bracket"></i>LogIn</button>		
+							<button class="btn sign-up"><i class="fa-solid fa-user"></i><a href="signup.cfm">SignUp</a></button>
+							<button class="btn log-in"><i class="fa-solid fa-right-to-bracket"></i><a href="logIn.cfm">LogIn</a></button>
 						</div>
 					</nav>
 				</div>			
@@ -33,41 +59,44 @@
 									<div class="contact-icon"><i class="fa-solid fa-address-book"></i></div>
 								</div>
 								<div class="reg-form pb-3">
-									<form name="registration-form" action="" method="post" class="signIn-form">
+									<form name="registration-form" action="" method="post" class="signIn-form" 												>
 										<div class="form-head">
 											<h2 id="formHead">SignUp</h2>
 										</div>
 										<div class="user-inputs mb-1">
 											<input type="text" id="fullname" name="fullName" placeholder="Full Name" 
-											class="form-control" onkeyup="return validateFname()">			
+											class="form-control" required>			
 										</div>
-										<div class="user-inputs error" id="fname-error"></div>
 										<div class="user-inputs mb-1">
 											<input type="email" id="email" name="userEmail" placeholder="Email" 
-											class="form-control" onkeyup="return validateEmail()">			
+											class="form-control" required>			
 										</div>
-										<div class="user-inputs error" id="email-error"></div>
 										<div class="user-inputs mb-1">
 											<input type="text" id="username" name="username" placeholder="Username" 
-											class="form-control" onkeyup="return validateUserName()">		
+											class="form-control" required>		
 										</div>
-										<div class="user-inputs error" id="username-error"></div>
 										<div class="user-inputs mb-1">
 											<input type="password" id="password" name="password"
 											 	placeholder="Password" class="form-control" 
-												onkeyup="return validatePassword()">				
+												required>				
 										</div>
-										<div class="user-inputs error" id="password-error"></div>
 										<div class="user-inputs mb-1">
 											<input type="password" id="conf-password" name="passwordConf"
 											 placeholder="Confirm Password" class="form-control" 
-											 onkeyup="return validateConfPass()">		
+											 required>		
 										</div>
-										<div class="user-inputs error" id="confirm-error"></div>
 										<div class="user-inputs">
-											<button type="submit" class="sign" id="signUp">SignUp</button>		
+											<button type="submit" class="sign" id="signUp" name="submit">																SignUp
+											</button>		
 										</div>
-										<div class="error" id="valdation-error"></div>
+										<cfif structKeyExists(variables,"validationResult") AND
+										 arrayLen(validationResult) GT 0>
+											<cfoutput>
+												<cfloop array="#validationResult#" index="error">
+													<span class="validation-error">#error#</span><br>
+												</cfloop>
+											</cfoutput>
+										</cfif>
 									</form>
 								</div>
 							</div>
@@ -76,7 +105,6 @@
 				</div>
 			</section>
 		</section>
-		<script src="./js/bootstrap.bundle.min.js"></script>
-		<script src="script.js"></script>	
+
 	</body>
 </html>

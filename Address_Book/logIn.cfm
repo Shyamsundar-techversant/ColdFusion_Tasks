@@ -1,3 +1,9 @@
+<cfif structKeyExists(url,"logOut")>
+	<cfset StructDelete(session,"username")>
+	<cfset StructDelete(session,"userId")>
+</cfif>
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -42,7 +48,7 @@
 											<h2 id="formHead">LogIn</h2>
 										</div>
 										<div class="user-inputs mb-3">
-											<input type="text" id="username" name="username" placeholder="Username" 
+											<input type="text" id="username" name="userName" placeholder="Username" 
 											class="form-control" required>							
 										</div>
 										<div class="user-inputs mb-3">
@@ -50,7 +56,7 @@
 											 placeholder="Password" class="form-control" required>				
 										</div>
 										<div class="user-inputs ">
-											<button type="submit" class="sign" id="logIn" name="submit">LogIn</button>		
+											<button type="submit" class="sign" id="logIn" name="submit">LogIn</button>
 										</div>
 									</form>
 								</div>
@@ -59,6 +65,14 @@
 					</div>
 				</div>
 			</section>
-		</section>	
+		</section>
+
+		<cfif structKeyExists(form,"submit")>
+			<cfset logResult=application.dbObj.logUser(form.userName,form.password)>
+		</cfif>
+
+	
 	</body>
 </html>
+
+

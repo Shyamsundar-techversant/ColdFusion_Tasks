@@ -11,17 +11,18 @@
 	>
 
 
-	<!---<cfif arrayLen(validationResult) EQ 0>
-		<cfset regUser=application.dbObj.registerUser(
+	 <cfif arrayLen(validationResult) EQ 0>
+		<cfset variables.regUser=application.dbObj.registerUser(
 								form.fullName,
 								form.userEmail,
 								form.username,
-								form.password,
-								form.passwordConf							
+								form.password							
 							)
 		>
-	</cfif> --->
-		
+	</cfif> 
+	<cfif structKeyExists(variables,"regUser")>
+		<cfdump var="#regUser#">
+	</cfif>
 </cfif>
 
 <!DOCTYPE html>

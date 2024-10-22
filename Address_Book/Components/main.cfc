@@ -45,5 +45,86 @@
 	</cffunction>
 
 	<!--- Register User--->
+	<cffunction name="registerUser" access="public" returntype="string">
+		<cfargument name="fullName" type="string" required="true">
+		<cfargument name="emailId" type="string" required="true">
+		<cfargument name="userName" type="string" required="true">
+		<cfargument name="password" type="string" required="true">
+		<cfset local.hashedPassword=hash(#arguments.password#,"SHA-512")>
+		<cfset local.result="">
+		<cftry>
+			<cfquery name="local.registerUser" datasource="coldfusion">
+				SELECT 	
+					email,userName
+				FROM 
+					registeredUsers
+				WHERE 
+					email=<cfqueryparam value="#arguments.emailId#" cfsqltype="cf_sql_varchar">
+				AND	
+					userName = <cfqueryparam value="#arguments.userName#" cfsqltype="cf_sql_varchar">
 
+			</cfquery>
+			<cfif local.registerUser.recordCount GT 0>
+				<cfset local.result="User Already Exist">
+			<cfelse>
+				<cfquery name="local.insertUser" datasource="coldfusion">
+					INSERT INTO
+							registeredUsers(
+										fullName,
+										email,
+										userName,	
+										password
+									)
+					VALUES(
+							<cfqueryparam value="#arguments.fullName#" cfsqltype="cf_sql_varchar">,
+							<cfqueryparam value="#arguments.emailId#" cfsqltype="cf_sql_varchar">,
+							<cfqueryparam value="#arguments.userName#" cfsqltype="cf_sql_varchar">,
+							<cfqueryparam value="#local.hashedPassword#" cfsqltype="cf_sql_varchar">
+						)
+				</cfquery>
+				<cflocation url="logIn.cfm" addtoken="false">
+			</cfif>
+			<cfreturn local.result>
+		<cfcatch>
+			<cfdump var="#cfcatch#">
+			<cfreturn local.result>
+		</cfcatch>
+		</cftry>
+	</cffunction>
+
+	<!-- LOGIN FORM --->
+	<cffunction name="logUser" access="public" returntype="string">
+		<cfargument name="userName" type="string" required="true">
+		<cfargument name="password" type="string" required="true">
+		<cfset local.hashedPassword=hash(#arguments.password#,"SHA-512")>
+		<cfset local.result="">
+		<cftry>
+			<cfquery name="local.userLog" datasource="coldfusion">
+				SELECT 
+					userName,
+					userId
+				FROM 
+					registeredUsers
+				WHERE 
+					userName=<cfqueryparam value="#arguments.userName#" cfsqltype="cf_sql_varchar">
+				AND
+					password=<cfqueryparam value="#local.hashedPassword#" cfsqltype="cf_sql_varchar">
+								
+			</cfquery>
+			<cfif local.userLog.recordCount EQ 1>
+				<cfset result="LogIn successful">
+				<cfset session.username=arguments.username>
+				<cfset session.userId=local.userLog.userId>
+				<cflocation url="home.cfm" addtoken="false">
+			</cfif>
+			<cfreturn local.result>
+		<cfcatch>
+			<cfdump var="#cfcatch#">
+			<cfset local.result="#cfcatch.message#">
+			<cfreturn local.result>
+		</cfcatch>
+		</cftry>
+	</cffunction>
 </cfcomponent>
+
+

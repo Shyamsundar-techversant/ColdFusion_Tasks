@@ -5,5 +5,4 @@
 	<cffunction name="onApplicationStart" returntype="void">
 		<cfset application.dbObj=createObject("component","Components.main")>
 	</cffunction>	
-
 </cfcomponent>

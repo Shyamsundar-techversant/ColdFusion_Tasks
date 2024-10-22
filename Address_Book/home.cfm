@@ -1,3 +1,8 @@
+<cfif NOT structKeyExists(session,"username") OR NOT structKeyExists(session,"userId")>
+	<cflocation url="logIn.cfm" addtoken="false">	
+</cfif>
+
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -20,7 +25,7 @@
 						</div>
 						<div class="reg-buttons">
 							<button class="btn sign-up">
-								<a href="logIn.cfm">
+								<a href="logIn.cfm?logOut=1">
 									<i class="fa-solid fa-arrow-left"></i>LogOut
 								</a>
 							</button>
@@ -40,19 +45,27 @@
 				</div>
 			</div>
 			<div class="container">
-				<div class="users">
-					<div class="create-profile">
-						<div class="user-img-logo">
-							<i class="fa-solid fa-user"></i>
+				<cfoutput>
+					<div class="users">
+						<div class="create-profile">
+							<div class="user-img-logo">
+								<i class="fa-solid fa-user"></i>
+							</div>
+							<h4>#session.username#</h4>
+							<button class="btn user-creation">CREATE CONTACT</button>
 						</div>
-						<button class="btn user-creation">CREATE CONTACT</button>
-					</div>
-					<div class="user-profiles">
+						<div class="user-profiles">
 			
+						</div>
 					</div>
-				</div>
+				</cfoutput>
 			</div>
 		</section>	
+		<div class="add-edit-contact">
+			<div class="card">
+				<div class="card-body">
+			</div>
+		</div>
 	</body>
 </html>
 

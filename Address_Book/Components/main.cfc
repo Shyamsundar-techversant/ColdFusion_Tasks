@@ -7,7 +7,7 @@
 		<cfargument name="password" type="string" required="true">
 		<cfargument name="passwordConf" type="string" required="true">
 		<cfset local.errors=[]>
-		<!--- Validate firstname --->
+		<!--- Validate fullname --->
 		<cfif len(trim(arguments.fullName)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Fullname is required")>
 		<cfelseif NOT reFindNoCase("^[A-Za-z]+(\s[A-Za-z]+)?$",arguments.fullName)>
@@ -124,6 +124,37 @@
 			<cfreturn local.result>
 		</cfcatch>
 		</cftry>
+	</cffunction>
+
+	<!--- CREATE CONTACT --->
+	<cffunction name="createContact" access="public" returntype="array">
+		<cfargument name="title" type="string" required="true">
+		<cfargument name="firstname" type="string" required="true">
+		<cfargument name="lastname" type="string" required="true">
+		<cfargument name="gender" type="string" required="true">
+		<cfargument name="dob" type="string" required="true">
+		<cfargument name="email" type="string" required="true">
+		<cfargument name="phone" type="integer" required="true">
+		<cfargument name="address" type="string" required="true">
+		<cfargument name="street" type="string" required="true">
+		<cfargument name="pincode" type="string" required="true">
+
+		<cfset local.errors=[]>	
+		<!--- Title --->
+
+		<!--- Validate Firstname --->	
+		<cfif len(trim(arguments.firstname)) EQ 0>
+			<cfset arrayAppend(local.errors,"*Firstname is required")>
+		<cfelseif NOT reFindNoCase("^[A-Za-z]+(\s[A-Za-z]+)?$",arguments.firstname)>
+			<cfset arrayAppend(local.errors,"*Enter a valid firstname")>
+		</cfif>
+		<!--- Validate Lastname--->
+		<cfif len(trim(arguments.lastname)) EQ 0>
+			<cfset arrayAppend(local.errors,"*Lastname is required")>
+		<cfelseif NOT reFindNoCase("^[A-Za-z]+(\s[A-Za-z]+)?$",arguments.lastname)>
+			<cfset arrayAppend(local.erros,"*Enter a valid firstname")>
+		</cfif>
+		<!--- --->
 	</cffunction>
 </cfcomponent>
 

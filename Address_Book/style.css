@@ -87,9 +87,6 @@ a{
 }
 .form-control{
 	outline:none;
-	border:none !important;
-	border-bottom:1px solid #79add3 !important;
-	border-radius:0 !important;
 	max-width:90% !important;
 }
 .user-inputs{
@@ -179,10 +176,27 @@ a{
 .add-edit-contact{
 	width:100%;
 	max-width:550px;
-	background:#fff;
-	height:500px;
+	background:#fff !important;
 	margin-left:auto;
 	margin-right:auto;
+	padding:10px !important;
 }
-
-
+.user-btn{
+	padding:10px 15px;
+	border-radius:16px;
+	font-size:16px;
+	border:none;
+}
+.cancel-user-form{
+	background:#d8d8e3;
+}
+.add-details{
+	background:#2e77b1 ;
+	color:#fff;
+}
+.user-form-buttons{
+	display:flex;
+	justify-content:flex-end;
+	align-items:center;
+	gap:10px;
+}

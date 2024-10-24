@@ -126,13 +126,55 @@
 		</cftry>
 	</cffunction>
 
+	<!--- GET TITLE--->
+	<cffunction name="getTitle" access="public" returntype="query">
+		<cftry>
+			<cfquery name="local.titleValue" datasource="coldfusion">
+				SELECT 
+					id,
+					titles
+				FROM 	
+					title
+			</cfquery>
+			<cfif local.titleValue.recordCount EQ 3>
+				<cfreturn local.titleValue>
+			</cfif>
+		<cfcatch>
+			<cfset local.result="#cfcatch.message#">
+			<cfreturn local.result>
+		</cfcatch>
+		</cftry>	
+	</cffunction>
+
+	<!--- GET GENDER --->
+	<cffunction name="getGender" access="public" returntype="query">
+		<cftry>
+			<cfquery name="local.genderValues" datasource="coldfusion">
+				SELECT 
+					id,
+					gender_values
+				FROM 
+					gender
+			</cfquery>
+			<cfif local.genderValues.recordCount EQ 3>
+				<cfreturn local.genderValues>
+			</cfif>
+		<cfcatch>
+	
+			<cfset local.result="#cfcatch.message#">
+			<cfreturn local.result>
+		</cfcatch>
+		</cftry>
+	</cffunction>
+
 	<!--- CREATE CONTACT --->
 	<cffunction name="createContact" access="public" returntype="array">
 		<cfargument name="title" type="string" required="true">
 		<cfargument name="firstname" type="string" required="true">
 		<cfargument name="lastname" type="string" required="true">
 		<cfargument name="gender" type="string" required="true">
-		<cfargument name="dob" type="string" required="true">
+		<cfargument name="dob" type="date" required="true">
+		<cfargument name="imageAddress" type="string" required="true">
 		<cfargument name="email" type="string" required="true">
 		<cfargument name="phone" type="integer" required="true">
 		<cfargument name="address" type="string" required="true">
@@ -141,21 +183,71 @@
 
 		<cfset local.errors=[]>	
 		<!--- Title --->
-
-		<!--- Validate Firstname --->	
+		<cfset local.titleArr=[]>	
+		<cfset local.titleValues=getTitle()>
+		<cfloop query="local.titleValues">
+			<cfset arrayAppend(local.titleArr,local.titleValues.titles)>
+		</cfloop>
+		<cfif NOT ArrayContains(local.titleArr,arguments.title)>
+			<cfset arrayAppend(local.erros,"*Enter a valid title")>
+		</cfif>
+		<!--- VALIDATE FIRSTNAME --->	
 		<cfif len(trim(arguments.firstname)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Firstname is required")>
 		<cfelseif NOT reFindNoCase("^[A-Za-z]+(\s[A-Za-z]+)?$",arguments.firstname)>
 			<cfset arrayAppend(local.errors,"*Enter a valid firstname")>
 		</cfif>
-		<!--- Validate Lastname--->
+		<!--- VALIDATE LASTNAME--->
 		<cfif len(trim(arguments.lastname)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Lastname is required")>
 		<cfelseif NOT reFindNoCase("^[A-Za-z]+(\s[A-Za-z]+)?$",arguments.lastname)>
 			<cfset arrayAppend(local.erros,"*Enter a valid firstname")>
 		</cfif>
-		<!--- --->
-	</cffunction>
+		<!--- VALIDATE GENDER --->
+		<cfset local.genderArr=[]>
+		<cfset local.genderValues=getGender()>
+		<cfloop query="local.genderValues">
+			<cfset arrayAppend(local.genderArr,local.genderValues.gender_value)>	
+		</cfloop>
+		<cfif NOT ArrayContains(local.genderArr,arguments.gender)>
+			<cfset arrayAppend(local.errors,"*Please enter a valid gender")>
+		</cfif>
+		<!--- VALIDATE DOB --->
+
+		<!--- VALIDATE IMAGE --->		
+
+		<!---VALIDATE EMAIL --->
+		<cfif len(trim(arguments.email)) EQ 0>
+			<cfset arrayAppend(local.errors,"*Email is required")>
+		<cfelseif NOT reFindNoCase("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",arguments.email)>
+			<cfset arrayAppend(local.errors,"*Enter a valid email")>
+		</cfif>
+	
+		<!--- VALIDATE PHONE--->
+		<cfif len(trim(arguments.phone)) EQ 0>
+			<cfset arrayAppend(local.errors,"*Phone number is required")>
+		<cfelseif NOT reFindNoCase("^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$",arguments.phone)>
+			<cfset arrayAppend(local.errors,"*Enter a valid phone number")>
+		</cfif>
+		
+		<!--- VALIDATE ADDRESS--->
+		<cfif len(trim(arguments.address)) EQ 0>
+			<cfset arrayAppend(local.errors,"*Address is required")>
+		</cfif>
+	
+		<!--- VALIDATE STREET --->
+		<cfif len(trim(arguments.street)) EQ 0>
+			<cfset arrayAppend(local.errors,"*Street name is required")>
+		</cfif>
+
+		<!---VALIDATE PINCODE --->
+		<cfif len(trim(arguments.pincode)) EQ 0>
+			<cfset  arrayAppend(local.errors,"*Pincode is required")>
+		<cfelseif NOT reFindNoCase("^[1-9][0-9]{5}$",arguments.pincode)>
+			<cfset arrayAppend(local.errors,"*Enter a valid pincode")>
+		</cfif>
+	</cffunction> 
+
 </cfcomponent>
 
 

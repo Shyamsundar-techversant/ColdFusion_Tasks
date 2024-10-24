@@ -14,7 +14,7 @@ CREATE TABLE pages (
     pagedesc varchar(100)
 );
 SELECT * FROM pages;
-
+DROP TABLE pages;
 INSERT INTO
 	pages(pagename,pagedesc)
 VALUES(
@@ -22,3 +22,10 @@ VALUES(
 "history of violence"
 );
 
+			UPDATE 
+				pages 
+			SET 
+				pagename="killer miller",
+				pagedesc="david miller"
+			WHERE	
+				pageid=2 ;

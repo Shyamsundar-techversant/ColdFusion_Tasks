@@ -70,11 +70,14 @@
 						<div class="row mb-3">
 							<div class="col">
 								<label for="title" class="form-label">Title</label>
+								<cfset titleValues=application.dbObj.getTitle()>
 								<select name="title" class="form-select" id="title">
 									<option value="">Select</option>
-									<option value="Mr.">Mr.</option>
-									<option value="Mrs.">Mrs.</option>
-									<option value="Miss">Miss</option>
+									<cfoutput>
+										<cfloop query="titleValues">
+											<option value="#titleValues.id#">#titleValues.titles#</option>
+										</cfloop>
+									</cfoutput>
 								</select>
 							</div>
 							<div class="col">
@@ -89,11 +92,14 @@
 						<div class="row mb-3">
 							<div class="col">
 								<label for="gender" class="form-label">Gender</label>
+								<cfset genderValues=application.dbObj.getGender()>
 								<select name="gender" class="form-select" id="gender">
 									<option value="">Select</option>
-									<option value="Male">Male</option>
-									<option value="Female">Female</option>
-									<option value="Others">Others</option>
+									<cfoutput>
+										<cfloop query="genderValues">
+											<option value="#genderValues.id#">#genderValues.gender_values#</option>
+										</cfloop>	
+									</cfoutput>
 								</select>
 							</div>
 							<div class="col">

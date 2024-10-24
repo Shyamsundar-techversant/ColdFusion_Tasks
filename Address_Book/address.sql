@@ -1,22 +1,4 @@
 use coldfusion;
-CREATE TABLE contacts(
-						contactId INT PRIMARY KEY,
-						title VARCHAR(10),
-						firstName VARCHAR(30),
-						lastName VARCHAR(30),
-                        gender VARCHAR(10),
-                        dob DATE,
-                        imagePath VARCHAR(200),
-                        address VARCHAR(200),
-                        street VARCHAR(100),
-						pincode INT,
-                        email VARCHAR(100),
-						phone INT,
-                        FOREIGN KEY (contactId) REFERENCES registeredUsers(userId)
-					);
-SELECT * FROM contacts;
-drop table contacts;
-
 CREATE TABLE registeredUsers(
 	userId INT PRIMARY KEY AUTO_INCREMENT,
     fullName VARCHAR(100),
@@ -27,3 +9,61 @@ CREATE TABLE registeredUsers(
 );
 drop table registeredUsers;
 select * from registeredUsers;
+
+CREATE TABLE gender(
+	id INT PRIMARY KEY,
+    gender_values VARCHAR(15)
+);
+INSERT INTO gender(
+	id,gender_values
+)
+VALUES(
+		1,"MALE"
+    ),
+    (
+		2,"FEMALE"
+    ),
+    (
+		3,"OTHERS"
+    );
+    
+SELECT * FROM gender;
+
+CREATE TABLE title(
+	id INT PRIMARY KEY,
+	titles VARCHAR(10)
+);
+INSERT INTO title(
+	id,titles
+)
+VALUES(
+	1,"Mr."
+),
+(
+	2,"Mrs."
+),
+(
+	3,"Miss."
+);
+
+select * from title;
+
+CREATE TABLE contacts(
+						contactId INT PRIMARY KEY,
+						titleId INT,
+						firstName VARCHAR(30),
+						lastName VARCHAR(30),
+                        genderId INT,
+                        dob DATE,
+                        imagePath VARCHAR(200),
+                        address VARCHAR(200),
+                        street VARCHAR(100),
+						pincode INT,
+                        email VARCHAR(100),
+						phone INT,
+                        FOREIGN KEY (contactId) REFERENCES registeredUsers(userId),
+						FOREIGN KEY(titleId) REFERENCES title(id),
+                        FOREIGN KEY(genderId) REFERENCES gender(id)
+					);
+SELECT * FROM contacts;
+drop table contacts;

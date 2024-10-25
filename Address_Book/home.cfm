@@ -1,7 +1,26 @@
 <cfif NOT structKeyExists(session,"username") OR NOT structKeyExists(session,"userId")>
 	<cflocation url="logIn.cfm" addtoken="false">	
 </cfif>
+<cfif structKeyExists(form,"submit")>
+	<cffile action="upload" fileField="uploadImg" destination=#application.imageSavePath# nameconflict="makeunique">
 
+	<cfset imageAddress = application.imageSavePath & "\" & cffile.SERVERFILE>	
+	<cfset addValidationResult=application.dbObj.createContact(
+										form.title,
+										form.firstname,
+										form.lastname,
+										form.gender,
+										form.dob,
+										imageAddress,
+										form.email,
+										form.phone,
+										form.address,
+										form.street,
+										form.pincode
+									)
+	> 
+	<cfdump var="#addValidationResult#">
+</cfif>
 
 <!DOCTYPE html>
 <html>
@@ -154,27 +173,6 @@
 					</form>
 			</div>
 		</div>
-
-		<cfif structKeyExists(form,"submit")>
-
-			<cffile action="upload" fileField="uploadImg" destination=#application.imageSavePath# nameconflict="makeunique">
-
-			<cfset imageAddress = application.imageSavePath & "\" & cffile.SERVERFILE>
-			<cfset addValidationResult=application.dbObj.createContact(
-											form.title,
-											form.firstname,
-											form.lastname,
-											form.gender,
-											form.dob,
-											imageAddress,
-											form.email,
-											form.phone,
-											form.address,
-											form.street,
-											form.pincode
-										)
-			>
-		</cfif>
 	
 	</body>
 </html>

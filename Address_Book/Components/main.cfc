@@ -182,6 +182,7 @@
 		<cfargument name="pincode" type="string" required="true">
 
 		<cfset local.errors=[]>	
+
 		<!--- Title --->
 		<cfset local.titleArr=[]>	
 		<cfset local.titleValues=getTitle()>
@@ -189,33 +190,50 @@
 			<cfset arrayAppend(local.titleArr,local.titleValues.titles)>
 		</cfloop>
 		<cfif NOT ArrayContains(local.titleArr,arguments.title)>
-			<cfset arrayAppend(local.erros,"*Enter a valid title")>
+			<cfset arrayAppend(local.errors,"*Enter a valid title")>
 		</cfif>
+
 		<!--- VALIDATE FIRSTNAME --->	
 		<cfif len(trim(arguments.firstname)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Firstname is required")>
 		<cfelseif NOT reFindNoCase("^[A-Za-z]+(\s[A-Za-z]+)?$",arguments.firstname)>
 			<cfset arrayAppend(local.errors,"*Enter a valid firstname")>
 		</cfif>
+
 		<!--- VALIDATE LASTNAME--->
 		<cfif len(trim(arguments.lastname)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Lastname is required")>
 		<cfelseif NOT reFindNoCase("^[A-Za-z]+(\s[A-Za-z]+)?$",arguments.lastname)>
-			<cfset arrayAppend(local.erros,"*Enter a valid firstname")>
+			<cfset arrayAppend(local.errors,"*Enter a valid firstname")>
 		</cfif>
+
 		<!--- VALIDATE GENDER --->
 		<cfset local.genderArr=[]>
 		<cfset local.genderValues=getGender()>
 		<cfloop query="local.genderValues">
-			<cfset arrayAppend(local.genderArr,local.genderValues.gender_value)>	
+			<cfset arrayAppend(local.genderArr,local.genderValues.gender_values)>	
 		</cfloop>
 		<cfif NOT ArrayContains(local.genderArr,arguments.gender)>
 			<cfset arrayAppend(local.errors,"*Please enter a valid gender")>
 		</cfif>
+
 		<!--- VALIDATE DOB --->
+		<cfif NOT IsDate(arguments.dob)>
+			<cfset arrayAppend(local.errors,"*Please enter a valid date")>
+		</cfif>
 
 		<!--- VALIDATE IMAGE --->		
-
+		<cfif FileExists(arguments.imageAddress)>
+			<cfset local.maxSize=5*1024*1024>
+			<cfset local.allowedExtensions="image/jpeg,image/png,image/gif">
+			<cffile action="read" file=#arguments.imageAddress# variable="local.fileContent">
+			<cfif local.fileContent.FILESIZE GT maxSize>
+				<cfset arrayAppend(local.errors,"*Image size should be less than 5 MB")>
+			</cfif>	
+			<cfif NOT ListFindNoCase(local.allowedExtensions,local.fileContent.SERVERFILEEXT)>
+				<cfset arrayAppend(local.errors,"*Image should be jpeg,png or gif format")>
+			</cfif>		
+		</cfif>
 		<!---VALIDATE EMAIL --->
 		<cfif len(trim(arguments.email)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Email is required")>
@@ -246,6 +264,7 @@
 		<cfelseif NOT reFindNoCase("^[1-9][0-9]{5}$",arguments.pincode)>
 			<cfset arrayAppend(local.errors,"*Enter a valid pincode")>
 		</cfif>
+		<cfreturn local.errors>
 	</cffunction> 
 
 </cfcomponent>

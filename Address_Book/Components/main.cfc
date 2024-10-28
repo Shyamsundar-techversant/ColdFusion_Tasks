@@ -167,16 +167,16 @@
 		</cftry>
 	</cffunction>
 
-	<!--- CREATE CONTACT --->
-	<cffunction name="createContact" access="public" returntype="array">
+	<!--- VALIDATE CONTACT FORM--->
+	<cffunction name="validateContactForm" access="public" returntype="array">
 		<cfargument name="title" type="string" required="true">
 		<cfargument name="firstname" type="string" required="true">
 		<cfargument name="lastname" type="string" required="true">
 		<cfargument name="gender" type="string" required="true">
-		<cfargument name="dob" type="date" required="true">
-		<cfargument name="imageAddress" type="string" required="true">
+		<cfargument name="dob" type="string" required="true">
+		<cfargument name="uploadImg" type="string" required="true">
 		<cfargument name="email" type="string" required="true">
-		<cfargument name="phone" type="integer" required="true">
+		<cfargument name="phone" type="string" required="true">
 		<cfargument name="address" type="string" required="true">
 		<cfargument name="street" type="string" required="true">
 		<cfargument name="pincode" type="string" required="true">
@@ -187,12 +187,12 @@
 		<cfset local.titleArr=[]>	
 		<cfset local.titleValues=getTitle()>
 		<cfloop query="local.titleValues">
-			<cfset arrayAppend(local.titleArr,local.titleValues.titles)>
+			<cfset arrayAppend(local.titleArr,local.titleValues.id)>
 		</cfloop>
 		<cfif NOT ArrayContains(local.titleArr,arguments.title)>
 			<cfset arrayAppend(local.errors,"*Enter a valid title")>
 		</cfif>
-
+		
 		<!--- VALIDATE FIRSTNAME --->	
 		<cfif len(trim(arguments.firstname)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Firstname is required")>
@@ -204,35 +204,51 @@
 		<cfif len(trim(arguments.lastname)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Lastname is required")>
 		<cfelseif NOT reFindNoCase("^[A-Za-z]+(\s[A-Za-z]+)?$",arguments.lastname)>
-			<cfset arrayAppend(local.errors,"*Enter a valid firstname")>
+			<cfset arrayAppend(local.errors,"*Enter a valid lastname")>
 		</cfif>
 
 		<!--- VALIDATE GENDER --->
 		<cfset local.genderArr=[]>
 		<cfset local.genderValues=getGender()>
 		<cfloop query="local.genderValues">
-			<cfset arrayAppend(local.genderArr,local.genderValues.gender_values)>	
+			<cfset arrayAppend(local.genderArr,local.genderValues.id)>	
 		</cfloop>
 		<cfif NOT ArrayContains(local.genderArr,arguments.gender)>
 			<cfset arrayAppend(local.errors,"*Please enter a valid gender")>
-		</cfif>
+		</cfif> 
 
 		<!--- VALIDATE DOB --->
-		<cfif NOT IsDate(arguments.dob)>
+		<cfif len(arguments.dob) EQ 0>
+			<cfset arrayAppend(local.errors,"*Please enter date of birth")>
+		<cfelseif NOT IsDate(arguments.dob)>
 			<cfset arrayAppend(local.errors,"*Please enter a valid date")>
-		</cfif>
-
+		</cfif> 
+		
 		<!--- VALIDATE IMAGE --->		
-		<cfif FileExists(arguments.imageAddress)>
-			<cfset local.maxSize=5*1024*1024>
-			<cfset local.allowedExtensions="image/jpeg,image/png,image/gif">
-			<cffile action="read" file=#arguments.imageAddress# variable="local.fileContent">
-			<cfif local.fileContent.FILESIZE GT maxSize>
+		<cfset local.maxSize=5*1024*1024>
+		<cfset local.allowedExtensions = "jpeg,jpg,png,gif">
+		<cfif len(trim(uploadImg)) EQ 0>
+			<cfset arrayAppend(local.errors,"* Photo is required")>
+		<cfelse>
+			<cfset local.uploadDir=expandPath('./Uploads/')>
+			<cfif NOT directoryExists(local.uploadDir)>
+				<cfdirectory action="create" directory="#local.uploadDir#">
+			</cfif>
+			<cfif structKeyExists(form,"uploadImg")>
+				<cffile action="upload"
+					fileField="uploadImg"
+					destination="#application.imageSavePath#"
+					nameconflict="makeunique"
+					result="local.uploadedImage"
+				>
+			</cfif>
+			<cfif local.uploadedImage.FILESIZE GT maxSize>
 				<cfset arrayAppend(local.errors,"*Image size should be less than 5 MB")>
 			</cfif>	
-			<cfif NOT ListFindNoCase(local.allowedExtensions,local.fileContent.SERVERFILEEXT)>
+
+			<cfif NOT ListFindNoCase(local.allowedExtensions,"#local.uploadedImage.CLIENTFILEEXT#")>
 				<cfset arrayAppend(local.errors,"*Image should be jpeg,png or gif format")>
-			</cfif>		
+			</cfif>
 		</cfif>
 		<!---VALIDATE EMAIL --->
 		<cfif len(trim(arguments.email)) EQ 0>
@@ -244,7 +260,7 @@
 		<!--- VALIDATE PHONE--->
 		<cfif len(trim(arguments.phone)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Phone number is required")>
-		<cfelseif NOT reFindNoCase("^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$",arguments.phone)>
+		<cfelseif NOT reFindNoCase("^[6-9]\d{9}$",arguments.phone)>
 			<cfset arrayAppend(local.errors,"*Enter a valid phone number")>
 		</cfif>
 		
@@ -263,9 +279,38 @@
 			<cfset  arrayAppend(local.errors,"*Pincode is required")>
 		<cfelseif NOT reFindNoCase("^[1-9][0-9]{5}$",arguments.pincode)>
 			<cfset arrayAppend(local.errors,"*Enter a valid pincode")>
-		</cfif>
-		<cfreturn local.errors>
+		</cfif> 
+		
+		<!--- ADD FUNCTION CALL	
+		<cfif ayyaLen(local.errors) EQ 0>
+			<cfset addCont=addContact(
+							arguments.title,
+							arguments.firstname,
+							arguments.lastname,
+							arguments.gender,
+							arguments.dob,
+							
+						)
+			>
+		<cfelse>	
+			<cfreturn local.errors>
+		</cfif>  --->
 	</cffunction> 
+	
+	<!--- ADD CONTACT --->
+	<cffunction name="addContact" access="public" returntype="query">
+		<cfargument name="title" type="string" required="true">
+		<cfargument name="firstname" type="string" required="true">
+		<cfargument name="lastname" type="string" required="true">
+		<cfargument name="gender" type="string" required="true">
+		<cfargument name="dob" type="string" required="true">
+		<cfargument name="uploadImg" type="string" required="true">
+		<cfargument name="email" type="string" required="true">
+		<cfargument name="phone" type="string" required="true">
+		<cfargument name="address" type="string" required="true">
+		<cfargument name="street" type="string" required="true">
+		<cfargument name="pincode" type="string" required="true">		
+	</cffunction>
 
 </cfcomponent>
 

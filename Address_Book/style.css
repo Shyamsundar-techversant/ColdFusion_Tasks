@@ -175,7 +175,7 @@ a{
 
 .add-edit-contact{
 	width:100%;
-	max-width:550px;
+	max-width:550px !important;
 	background:#fff !important;
 	margin-left:auto;
 	margin-right:auto;
@@ -199,4 +199,16 @@ a{
 	justify-content:flex-end;
 	align-items:center;
 	gap:10px;
+}
+
+/* Modal*/
+.modal-content{
+	border:none !important;
+}
+.modal-body{
+	padding:0 !important;
+	padding-top:5px !important;
+}
+.modal-title{
+	font-size:24px !important;
 }

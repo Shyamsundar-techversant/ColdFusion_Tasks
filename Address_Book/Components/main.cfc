@@ -249,8 +249,10 @@
 			<cfif NOT ListFindNoCase(local.allowedExtensions,"#local.uploadedImage.CLIENTFILEEXT#")>
 				<cfset arrayAppend(local.errors,"*Image should be jpeg,png or gif format")>
 			</cfif>
+			<cfset local.imagePath=local.uploadedImage.SERVERDIRECTORY>
 		</cfif>
-		<!---VALIDATE EMAIL --->
+
+		<!---VALIDATE EMAIL ---> 
 		<cfif len(trim(arguments.email)) EQ 0>
 			<cfset arrayAppend(local.errors,"*Email is required")>
 		<cfelseif NOT reFindNoCase("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",arguments.email)>
@@ -281,24 +283,30 @@
 			<cfset arrayAppend(local.errors,"*Enter a valid pincode")>
 		</cfif> 
 		
-		<!--- ADD FUNCTION CALL	
-		<cfif ayyaLen(local.errors) EQ 0>
+		<!--- ADD FUNCTION CALL	--->
+		<cfif arrayLen(local.errors) EQ 0>
 			<cfset addCont=addContact(
 							arguments.title,
 							arguments.firstname,
 							arguments.lastname,
 							arguments.gender,
 							arguments.dob,
-							
+							local.imagePath,
+							arguments.email,
+							arguments.phone,
+							arguments.address,
+							arguments.street,
+							arguments.pincode
 						)
 			>
+			<cfreturn local.errors>
 		<cfelse>	
 			<cfreturn local.errors>
-		</cfif>  --->
+		</cfif> 
 	</cffunction> 
 	
 	<!--- ADD CONTACT --->
-	<cffunction name="addContact" access="public" returntype="query">
+	<cffunction name="addContact" access="public" returntype="void">
 		<cfargument name="title" type="string" required="true">
 		<cfargument name="firstname" type="string" required="true">
 		<cfargument name="lastname" type="string" required="true">
@@ -309,7 +317,49 @@
 		<cfargument name="phone" type="string" required="true">
 		<cfargument name="address" type="string" required="true">
 		<cfargument name="street" type="string" required="true">
-		<cfargument name="pincode" type="string" required="true">		
+		<cfargument name="pincode" type="string" required="true">
+		
+		<cfset local.titleId= int(arguments.title)>
+		<cfset local.genderId=int(arguments.gender)>	
+		<cfset local.pincode = int(arguments.pincode)>
+		<cfset local.phone = int(arguments.phone)>
+		<cftry>
+			<cfquery name="local.contactAdd" datasource="coldfusion">
+				INSERT INTO
+					contacts(
+						contactId,
+						titleId,
+						firstName,
+						lastName,
+                        			genderId,
+                        			dob,
+                        			imagePath,
+                        			address,
+						street,
+						pincode,
+						email,
+						phone
+					)
+				VALUES(
+					<cfqueryparam value= #session.userId#  cfsqltype="cf_sql_integer">,
+					<cfqueryparam value="#local.titleId#" cfsqltype="cf_sql_integer">,
+					<cfqueryparam value="#arguments.firstname#" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="#arguments.lastname#" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="#local.genderId#" cfsqltype="cf_sql_integer"> ,
+					<cfqueryparam value="#arguments.dob#" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="#arguments.uploadImg#" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="#arguments.address#" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="#arguments.street#" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="#local.pincode#" cfsqltype="cf_sql_integer">,
+					<cfqueryparam value="#arguments.email#" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="#local.phone#" cfsqltype="cf_sql_bigint">
+				)
+			</cfquery>
+ 		<cfcatch>
+			<cfdump var="#cfcatch#">
+		</cfcatch>
+		</cftry>
+			
 	</cffunction>
 
 </cfcomponent>

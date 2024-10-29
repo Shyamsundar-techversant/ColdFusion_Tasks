@@ -212,3 +212,13 @@ a{
 .modal-title{
 	font-size:24px !important;
 }
+
+/* Error container */
+.error-container{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+
+

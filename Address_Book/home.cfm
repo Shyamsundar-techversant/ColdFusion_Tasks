@@ -4,7 +4,7 @@
 <cfif structKeyExists(form,"submit")>
 
 
-	 <cfset addValidationResult=application.dbObj.validateContactForm(
+	 <cfset variables.addValidationResult=application.dbObj.validateContactForm(
 										form.title,
 										form.firstname,
 										form.lastname,
@@ -18,7 +18,6 @@
 										form.pincode
 									)
 	> 
-	<cfdump var="#addValidationResult#">
 </cfif>
 
 <!DOCTYPE html>
@@ -62,6 +61,19 @@
 					</div>
 				</div>
 			</div>
+
+			<!---<div class="error-container">
+				<div class="error-content">
+					<cfif structKeyExists(variables,"addValidationResult")>
+						<cfoutput>
+							<cfloop array="#variables.addValidationResult#" index="error">
+								<span class="validation-error">#error#</span><br>
+							</cfloop>
+						</cfoutput>
+					</cfif>	
+				</div>
+			</div>--->
+
 			<div class="container">
 				
 					<div class="users">
@@ -81,7 +93,8 @@
 					</div>
 				
 			</div>
-		</section>	
+		</section>
+
 		<!-- Modal -->
 		<div	class="modal fade" 
 			id="staticBackdrop" 

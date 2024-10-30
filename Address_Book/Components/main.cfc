@@ -249,7 +249,7 @@
 			<cfif NOT ListFindNoCase(local.allowedExtensions,"#local.uploadedImage.CLIENTFILEEXT#")>
 				<cfset arrayAppend(local.errors,"*Image should be jpeg,png or gif format")>
 			</cfif>
-			<cfset local.imagePath=local.uploadedImage.SERVERDIRECTORY>
+			<cfset local.imagePath=local.uploadedImage.SERVERFILE>
 		</cfif>
 
 		<!---VALIDATE EMAIL ---> 
@@ -358,10 +358,69 @@
  		<cfcatch>
 			<cfdump var="#cfcatch#">
 		</cfcatch>
-		</cftry>
-			
+		</cftry>			
 	</cffunction>
 
+	<!--- GET ALL CONTACT --->
+	<cffunction name="getContacts" access="public" returntype="query">
+		<cftry>
+			<cfquery name="local.allContacts" datasource="coldfusion">
+				SELECT 
+					id,
+					contactId,
+					titleId,
+					firstName,
+					lastName,
+                        		genderId,
+                        		dob,
+                        		imagePath,
+                        		address,
+					street,
+					pincode,
+					email,
+					phone
+				FROM 
+					contacts
+			</cfquery>
+		<cfcatch>
+			<cfdump var="#cfcatch#">
+		</cfcatch>
+		</cftry>
+			<cfreturn local.allContacts>
+	</cffunction>
+
+	<!--- GET CONTACT BY ID --->
+	<cffunction name="getContactById" access="remote" returntype="any" returnformat="JSON">
+		<cfargument name="id" type="integer" required="true">
+		<cftry>
+			<cfquery name="local.getCont" datasource="coldfusion">
+				SELECT 
+					id,
+					contactId,
+					titleId,
+					firstName,
+					lastName,
+                        		genderId,
+                        		dob,
+                        		imagePath,
+                        		address,
+					street,
+					pincode,
+					email,
+					phone
+				FROM 
+					contacts
+				WHERE 
+					id=<cfqueryparam value=#arguments.id# cfsqltype="cf_sql_integer">				
+			</cfquery>
+			<cfset local.response=serializeJSON(local.getCont)>
+			<cfreturn local.response>
+		<cfcatch>
+			<cfset local.errResponse ={error=true}>
+			<cfreturn local.errResponse>
+		</cfcatch>
+		</cftry>
+	</cffunction>
 </cfcomponent>
 
 

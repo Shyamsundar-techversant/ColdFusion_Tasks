@@ -49,7 +49,8 @@ VALUES(
 select * from title;
 
 CREATE TABLE contacts(
-						contactId INT PRIMARY KEY,
+						id INT PRIMARY KEY,
+						contactId INT,
 						titleId INT,
 						firstName VARCHAR(30),
 						lastName VARCHAR(30),
@@ -65,5 +66,6 @@ CREATE TABLE contacts(
 						FOREIGN KEY(titleId) REFERENCES title(id),
                         FOREIGN KEY(genderId) REFERENCES gender(id)
 					);
-SELECT * FROM contacts;
+SELECT * FROM contacts ;
+
 drop table contacts;

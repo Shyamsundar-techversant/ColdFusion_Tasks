@@ -132,6 +132,8 @@ a{
 }
 .users{
 	padding-top:25px;
+	display:grid;
+	grid-template-columns:1fr 4fr;
 }
 .create-profile{
 	width:100%;
@@ -219,6 +221,14 @@ a{
 	justify-content:center;
 	align-items:center;
 }
+.table{
+	background:#fff !important;
+}
 
-
+/* VIEW */
+.profile-image{
+	padding:10px !important;
+	width:100px;
+	height:100px;
+}
 

@@ -19,7 +19,10 @@
 									)
 	> 
 </cfif>
-
+	
+	<cfset variables.getContacts=application.dbObj.getContacts()>
+	<cfset getConById = application.dbObj.getContactById(1)>
+	<cfdump var="#getConById#">
 <!DOCTYPE html>
 <html>
 	<head>
@@ -88,14 +91,54 @@
 							</button>
 						</div>
 						<div class="user-profiles">
-							
+							<table class="table">
+								<thead>
+									<tr>	
+										<th scope="col">Profile Photo</th>																<th scope="col">Name</th>
+										<th scope="col">Email Id</th>
+										<th scope="col">Phone Number</th>
+										<th scope="col">VIEW</th>
+										<th scope="col">EDIT</th>
+										<th scope="col">DELETE</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfif structKeyExists(variables,"getContacts")>
+										<cfoutput>
+											<cfloop query="getContacts">
+												<tr>
+		
+													<td>
+														<img src="./Uploads/#getContacts.imagePath#" 															width="30" height="30">
+													</td>
+ 													<td>#getContacts.firstName &getContacts.lastName#</td>
+													<td>#getContacts.email#</td>
+													<td>#getContacts.phone#</td>
+													<td>
+														<button type="button" 
+															class="btn btn-primary contact-view-btn" 
+															data-bs-toggle="modal"
+															data-bs-target="##viewContact"
+															data-id="#getContacts.id#"
+														>
+															VIEW
+														</button>
+													</td>
+													<td><button>Edit</button></td>
+													<td><button>Delete</button></td>
+												</tr>
+											</cfloop>
+										</cfoutput>
+									</cfif>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				
 			</div>
 		</section>
 
-		<!-- Modal -->
+		<!-- Modal ADD/EDIT -->
 		<div	class="modal fade" 
 			id="staticBackdrop" 
 			data-bs-backdrop="static" 
@@ -215,8 +258,46 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- Modal view -->
+		<div	class="modal fade" 
+			id="viewContact" 
+			data-bs-backdrop="static" 
+			data-bs-keyboard="false" 
+			tabindex="-1" 
+			aria-labelledby="staticBackdropLabel" 		
+			aria-hidden="true"
+		>
+			<div class="modal-dialog view-contact">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="staticBackdropLabel">CONTACT DETAILS</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div>
+							<div class="container">			
+									<div class="profile-image">
+										
+									</div>
+									Name:<p id="contact-name"></p>
+									Gender:<p id="contact-gender"></p>
+									DOB:<p id="contact-dob"></p>	
+									ADDRESS:<p id="contact-address"></p>
+									PINCODE:<p id="contact-pincode"></p>
+									EMAIL-ID:<p id="contact-email"></p>
+									PHONE:<p id="contact-phone"></p>
+							</div>
+						</div>						
+
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<script src="./js/bootstrap.bundle.min.js"></script>
+		<script src="./js/jquery-3.7.1.min.js"></script>
+		<script src="./js/script.js"></script>
 	</body>
 </html>
 

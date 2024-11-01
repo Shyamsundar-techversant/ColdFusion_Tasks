@@ -19,10 +19,7 @@
 									)
 	> 
 </cfif>
-	
 	<cfset variables.getContacts=application.dbObj.getContacts()>
-	<cfset getConById = application.dbObj.getContactById(1)>
-	<cfdump var="#getConById#">
 <!DOCTYPE html>
 <html>
 	<head>
@@ -86,7 +83,7 @@
 							</div>
 							<cfoutput><h4>#session.username#</h4></cfoutput>
 							<button type="button" class="btn btn-primary user-creation" data-bs-toggle="modal" 
-								data-bs-target="#staticBackdrop">
+								data-bs-target="#staticBackdrop" id="create-cont">
  								 CREATECONTACT
 							</button>
 						</div>
@@ -124,7 +121,15 @@
 															VIEW
 														</button>
 													</td>
-													<td><button>Edit</button></td>
+													<td>
+														<button class="edit-cont-details"
+															data-bs-toggle="modal"
+															data-bs-target="##staticBackdrop"
+															data-id="#getContacts.id#"
+														>
+															Edit
+														</button>
+													</td>
 													<td><button>Delete</button></td>
 												</tr>
 											</cfloop>
@@ -156,7 +161,7 @@
 					<div class="modal-body">
 						<div>
 							<div class="container">			
-									<form action="" method="post" enctype="multipart/form-data">
+									<form action="" method="post" enctype="multipart/form-data" id="contacts-form">
 										<div class="row mb-3">
 											<div class="col">
 												<label for="title" class="form-label">Title</label>
@@ -244,7 +249,10 @@
 													data-bs-dismiss="modal" >
 														Cancel
 													</button>
-													<button class="add-details user-btn" type="submit" 														name="submit">
+													<button class="edit-details user-btn"  																name="edit-user" id="edit-cont">
+														Edit Contact
+													</button>
+													<button class="add-details user-btn" type="submit" 														name="submit" id="add-cont">
 														Add Contact
 													</button>
 												</div>
@@ -278,15 +286,15 @@
 						<div>
 							<div class="container">			
 									<div class="profile-image">
-										
+										<img id="profile-picture">
 									</div>
-									Name:<p id="contact-name"></p>
-									Gender:<p id="contact-gender"></p>
-									DOB:<p id="contact-dob"></p>	
-									ADDRESS:<p id="contact-address"></p>
-									PINCODE:<p id="contact-pincode"></p>
-									EMAIL-ID:<p id="contact-email"></p>
-									PHONE:<p id="contact-phone"></p>
+									Name:<span id="contact-name" class="cont-info"></span><br>
+									Gender:<span id="contact-gender" class="cont-info"></span><br>
+									DOB:<span id="contact-dob" class="cont-info"></span><br>
+									ADDRESS:<span id="contact-address" class="cont-info"></span><br>
+									PINCODE:<span id="contact-pincode" class="cont-info"></span><br>
+									EMAIL-ID:<span id="contact-email" class="cont-info"></span><br>
+									PHONE:<span id="contact-phone" class="cont-info"></span>
 							</div>
 						</div>						
 

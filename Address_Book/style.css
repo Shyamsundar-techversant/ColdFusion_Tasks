@@ -231,4 +231,19 @@ a{
 	width:100px;
 	height:100px;
 }
+#profile-picture{
+	max-width:100%;
+}
+.cont-info{
+	padding-left:5px;
+	font-size:18px;
+	font-weight:500;
+}
+
+/* EDIT */
+.edit-details{
+	background:#2e77b1 ;
+	color:#fff;
+	
+}
 

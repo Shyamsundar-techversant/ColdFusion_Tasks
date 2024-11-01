@@ -49,8 +49,8 @@ VALUES(
 select * from title;
 
 CREATE TABLE contacts(
-						id INT PRIMARY KEY,
-						contactId INT,
+						id INT PRIMARY KEY AUTO_INCREMENT,
+						userId INT,
 						titleId INT,
 						firstName VARCHAR(30),
 						lastName VARCHAR(30),
@@ -62,7 +62,7 @@ CREATE TABLE contacts(
 						pincode INT,
                         email VARCHAR(100),
 						phone BIGINT,
-                        FOREIGN KEY (contactId) REFERENCES registeredUsers(userId),
+                        FOREIGN KEY (userId) REFERENCES registeredUsers(userId),
 						FOREIGN KEY(titleId) REFERENCES title(id),
                         FOREIGN KEY(genderId) REFERENCES gender(id)
 					);

@@ -169,7 +169,6 @@
 
 	<!--- VALIDATE CONTACT FORM--->
 	<cffunction name="validateContactForm" access="remote" returntype="array">
-		<cfargument name="contId" type="integer" required="false">
 		<cfargument name="title" type="string" required="true">
 		<cfargument name="firstname" type="string" required="true">
 		<cfargument name="lastname" type="string" required="true">
@@ -181,7 +180,7 @@
 		<cfargument name="address" type="string" required="true">
 		<cfargument name="street" type="string" required="true">
 		<cfargument name="pincode" type="string" required="true">
-
+		
 		<cfset local.errors=[]>	
 
 		<!--- Title --->
@@ -286,7 +285,6 @@
 		
 		<!--- ADD FUNCTION CALL	--->
 		<cfif arrayLen(local.errors) EQ 0>
-			<cfif NOT structKeyExists(arguments,contId)>
 				<cfset addCont=addContact(
 							arguments.title,
 							arguments.firstname,
@@ -301,23 +299,6 @@
 							arguments.pincode
 						)
 				>
-			<cfelse>
-				<cfset editCont=editContact(
-								arguments.contId,
-								arguments.title,
-								arguments.firstname,
-								arguments.lastname,
-								arguments.gender,
-								arguments.dob,
-								local.imagePath,
-								arguments.email,
-								arguments.phone,
-								arguments.address,
-								arguments.street,
-								arguments.pincode
-							)
-				>
-			</cfif>
 			<cfreturn local.errors>
 		<cfelse>	
 			<cfreturn local.errors>
@@ -411,6 +392,7 @@
 	<!--- GET CONTACT BY ID --->
 	<cffunction name="getContactById" access="remote" returntype="any" returnformat="JSON">
 		<cfargument name="id" type="integer" required="true">
+		
 		<cftry>
 			<cfquery name="local.getCont" datasource="coldfusion">
 				SELECT 
@@ -434,11 +416,21 @@
 				LEFT JOIN 
 					title t ON c.titleId=t.id
 				LEFT JOIN
-					gender g ON c.genderId=g.id
+					gender g ON c.genderId=g.id   
 				WHERE 
 					c.id=<cfqueryparam value=#arguments.id# cfsqltype="cf_sql_integer">				
 			</cfquery>
-			<cfset local.response=#serializeJSON(local.getCont)#>
+			<cfset local.response=#serializeJSON(local.getCont)#> 
+ <!--- <cfset local.result =structNew()>
+	<cfset local.result={
+				type="struct",
+				fields={
+					id:{type="numeric"},
+					
+				}
+			}
+
+	---->
 			<cfreturn local.response>
 		<cfcatch>
 			<cfset local.errResponse ={error=true}>
@@ -449,8 +441,7 @@
 	</cffunction>
 
 	<!--- EDIT CONTACT --->
-	<cffunction name="editContact" access="remote" returntype="boolean">
-		<cfargument name="id" type="integer" required="true">
+	<cffunction name="editContact" access="remote" returntype="boolean">	
 		<cfargument name="title" type="string" required="true">
 		<cfargument name="firstname" type="string" required="true">
 		<cfargument name="lastname" type="string" required="true">
@@ -461,7 +452,9 @@
 		<cfargument name="phone" type="string" required="true">
 		<cfargument name="address" type="string" required="true">
 		<cfargument name="street" type="string" required="true">
-		<cfargument name="pincode" type="string" required="true">		
+		<cfargument name="pincode" type="string" required="true">
+		<cfargument name="id" type="integer" required="true">	
+	
 		<cfset local.titleId= int(arguments.title)>
 		<cfset local.genderId=int(arguments.gender)>	
 		<cfset local.pincode = int(arguments.pincode)>
@@ -499,6 +492,29 @@
 
 	</cffunction>
 
+	<!--- DELETE CONTACT --->
+
+	<cffunction name="deleteCont" access="remote" returnformat="JSON">
+		<cfargument name="id" type="integer" required="true">
+		<cfset local.result="">
+		<cftry>
+			<cfquery datasource="coldfusion" result="delResult">
+				DELETE	FROM 
+					contacts
+				WHERE
+					id=<cfqueryparam value="#arguments.id#" cfsqltype="cf_sql_integer">			
+			</cfquery>
+			<cfif delResult.recordCount GT 0>
+				<cfset local.result="Success">			
+			<cfelse>
+				<cfset local.result="Failed">
+			</cfif>
+			<cfreturn local.result>
+		<cfcatch>
+			<cfoutput>#cfcath.message#</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cffunction>
 </cfcomponent>
 
 

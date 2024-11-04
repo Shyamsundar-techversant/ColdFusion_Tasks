@@ -150,6 +150,36 @@ $(document).ready(function(){
 
 	});
 
+	//DELETE CONTACT
+    	$('.delete-contact-details').on('click', function() {
+		// Get the contact ID from data-id attribute
+		contactId = $(this).data('id');
+	});
+	$('#delete-cont').on('click',function(){
+		$.ajax({
+			url:'Components/main.cfc?method=deleteCont',
+			type:'POST',
+			data:{
+				id:contactId
+			},
+			success:function(response){
+				let data=JSON.parse(response);
+				if( data === "Success"){					
+					$('button.delete-contact-details[data-id="' + contactId + '"]').closest('tr').remove();
+					alert("contact deleted successfully");
+				}
+				else{
+					console.log("error;;");
+				}
+				
+			},
+			error:function(){
+				console.log("Request failed");
+			}
+		});
+		$('#deleteContact').hide();
+		$('.modal-backdrop').hide();
+	})	
 });
 
 

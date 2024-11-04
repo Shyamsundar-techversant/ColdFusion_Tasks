@@ -247,3 +247,9 @@ a{
 	
 }
 
+/*  DELETE CONTACT*/
+
+.delete-details{
+	background:red;
+	color:white;
+}

@@ -3,7 +3,7 @@
 </cfif>
 <cfif structKeyExists(form,"submit")>
 
-
+	<cfdump var="#form.uploadImg#" abort>
 	 <cfset variables.addValidationResult=application.dbObj.validateContactForm(
 										form.title,
 										form.firstname,
@@ -32,7 +32,7 @@
 		referrerpolicy="no-referrer"/>	
 	</head>
 	<body>
-		<sectioin class="reg-page">
+		<section class="reg-page">
 			<header class="header">
 				<div class="container">
 					<nav class="navigation">
@@ -130,7 +130,15 @@
 															Edit
 														</button>
 													</td>
-													<td><button>Delete</button></td>
+													<td>
+														<button class="delete-contact-details"
+															data-bs-toggle="modal"
+															data-bs-target="##deleteContact"
+															data-id="#getContacts.id#"
+														>
+															Delete
+														</button>
+													</td>
 												</tr>
 											</cfloop>
 										</cfoutput>
@@ -144,13 +152,8 @@
 		</section>
 
 		<!-- Modal ADD/EDIT -->
-		<div	class="modal fade" 
+		<div	class="modal" 
 			id="staticBackdrop" 
-			data-bs-backdrop="static" 
-			data-bs-keyboard="false" 
-			tabindex="-1" 
-			aria-labelledby="staticBackdropLabel" 		
-			aria-hidden="true"
 		>
 			<div class="modal-dialog add-edit-contact">
 				<div class="modal-content">
@@ -268,13 +271,8 @@
 		</div>
 		
 		<!-- Modal view -->
-		<div	class="modal fade" 
+		<div	class="modal" 
 			id="viewContact" 
-			data-bs-backdrop="static" 
-			data-bs-keyboard="false" 
-			tabindex="-1" 
-			aria-labelledby="staticBackdropLabel" 		
-			aria-hidden="true"
 		>
 			<div class="modal-dialog view-contact">
 				<div class="modal-content">
@@ -302,6 +300,42 @@
 				</div>
 			</div>
 		</div>
+		
+		<!---Modal Delete--->
+		<div	class="modal" 
+			id="deleteContact"     		
+		>
+			<div class="modal-dialog delete-contact">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">DELETE CONTACT</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div>
+							<div class="container">			
+										<div class="row p-3">
+											<div class="col">
+												<div class="user-form-buttons">
+													<button class="cancel-user-form user-btn" 
+													data-bs-dismiss="modal" >
+														Cancel
+													</button>
+													<button  class="delete-details user-btn"  																name="edit-user" id="delete-cont">
+														Delete Contact
+													</button>
+												</div>
+											</div>
+										</div>
+							</div>
+						</div>						
+
+					</div>
+				</div>
+			</div>
+		</div>		
+
+
 
 		<script src="./js/bootstrap.bundle.min.js"></script>
 		<script src="./js/jquery-3.7.1.min.js"></script>

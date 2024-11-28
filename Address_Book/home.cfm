@@ -1,25 +1,5 @@
-<cfif NOT structKeyExists(session,"username") OR NOT structKeyExists(session,"userId")>
-	<cflocation url="logIn.cfm" addtoken="false">	
-</cfif>
-<cfif structKeyExists(form,"submit")>
-
-	<cfdump var="#form.uploadImg#" abort>
-	 <cfset variables.addValidationResult=application.dbObj.validateContactForm(
-										form.title,
-										form.firstname,
-										form.lastname,
-										form.gender,
-										form.dob,
-										form.uploadImg,
-										form.email,
-										form.phone,
-										form.address,
-										form.street,
-										form.pincode
-									)
-	> 
-</cfif>
-	<cfset variables.getContacts=application.dbObj.getContacts()>
+<cfset variables.getContacts=application.dbObj.getTotalData()>
+<!--- <cfset session.allContacts=variables.getContacts> --->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -32,7 +12,7 @@
 		referrerpolicy="no-referrer"/>	
 	</head>
 	<body>
-		<section class="reg-page">
+		<section class="reg-page  no-print">
 			<header class="header">
 				<div class="container">
 					<nav class="navigation">
@@ -53,27 +33,14 @@
 		</section>
 		<section class="user-details">
 			<div class="container">
-				<div class="user-options">
+				<div class="user-options  no-print">
 					<div class="options">
-						<button>A</button>
-						<button>B</button>
-						<button>C</button>
+						<button media="print" onclick="window.print();" >PRINT</button>
+						<button onclick="window.location.href='pdf.cfm';">PDF</button>
+						<button onclick="window.location.href='spreadSheet.cfm';">EXCEL</button>
 					</div>
 				</div>
 			</div>
-
-			<!---<div class="error-container">
-				<div class="error-content">
-					<cfif structKeyExists(variables,"addValidationResult")>
-						<cfoutput>
-							<cfloop array="#variables.addValidationResult#" index="error">
-								<span class="validation-error">#error#</span><br>
-							</cfloop>
-						</cfoutput>
-					</cfif>	
-				</div>
-			</div>--->
-
 			<div class="container">
 				
 					<div class="users">
@@ -84,7 +51,7 @@
 							<cfoutput><h4>#session.username#</h4></cfoutput>
 							<button type="button" class="btn btn-primary user-creation" data-bs-toggle="modal" 
 								data-bs-target="#staticBackdrop" id="create-cont">
- 								 CREATECONTACT
+ 								 CREATE CONTACT
 							</button>
 						</div>
 						<div class="user-profiles">
@@ -94,51 +61,81 @@
 										<th scope="col">Profile Photo</th>																<th scope="col">Name</th>
 										<th scope="col">Email Id</th>
 										<th scope="col">Phone Number</th>
-										<th scope="col">VIEW</th>
-										<th scope="col">EDIT</th>
-										<th scope="col">DELETE</th>
+										<th scope="col" class="no-print">VIEW</th>
+										<th scope="col" class="no-print">EDIT</th>
+										<th scope="col" class="no-print">DELETE</th>
 									</tr>
 								</thead>
 								<tbody>
 									<cfif structKeyExists(variables,"getContacts")>
 										<cfoutput>
+												
 											<cfloop query="getContacts">
+												<cfset encryptedId = encrypt(
+																	getContacts.id, 																		application.encryptionKey, 																	"AES", 
+																	"Hex"
+																)
+												>
 												<tr>
 		
 													<td>
-														<img src="./Uploads/#getContacts.imagePath#" 															width="30" height="30">
+														<img src="./Uploads/#getContacts.IMAGEPATH#"  																alt="logo" width="30" height="30"
+														>
 													</td>
  													<td>#getContacts.firstName &getContacts.lastName#</td>
 													<td>#getContacts.email#</td>
 													<td>#getContacts.phone#</td>
-													<td>
+													<td class="no-print">
 														<button type="button" 
 															class="btn btn-primary contact-view-btn" 
 															data-bs-toggle="modal"
 															data-bs-target="##viewContact"
-															data-id="#getContacts.id#"
+															data-id="#encryptedId#"
 														>
 															VIEW
 														</button>
 													</td>
-													<td>
-														<button class="edit-cont-details"
-															data-bs-toggle="modal"
-															data-bs-target="##staticBackdrop"
-															data-id="#getContacts.id#"
-														>
-															Edit
-														</button>
-													</td>
-													<td>
-														<button class="delete-contact-details"
-															data-bs-toggle="modal"
-															data-bs-target="##deleteContact"
-															data-id="#getContacts.id#"
-														>
-															Delete
-														</button>
-													</td>
+													<cfif session.userId EQ getContacts.userId>
+														<td class="no-print">
+														
+																<button class="edit-cont-details"
+																	data-bs-toggle="modal"
+																	data-bs-target=
+																	"##staticBackdrop"
+																	data-id="#encryptedId#"
+																>
+																	EDIT
+																</button>
+														
+														</td>
+														<td class="no-print">
+															<button class="delete-contact-details"
+																data-bs-toggle="modal"
+																data-bs-target="##deleteContact"
+																data-id="#encryptedId#"
+															>
+																Delete
+															</button>
+														</td>
+													<cfelse>
+														<td class="no-print">
+														
+																<button class="edit-cont-details"
+																	disabled
+																>
+																	EDIT
+																</button>
+														
+														</td>
+														<td class="no-print">
+															<button class="delete-contact-details"
+																disabled
+															>
+																Delete
+															</button>
+														</td>
+
+													</cfif>
 												</tr>
 											</cfloop>
 										</cfoutput>
@@ -146,12 +143,11 @@
 								</tbody>
 							</table>
 						</div>
-					</div>
-				
+					</div>				
 			</div>
 		</section>
 
-		<!-- Modal ADD/EDIT -->
+		<!--- Modal ADD/EDIT --->
 		<div	class="modal" 
 			id="staticBackdrop" 
 		>
@@ -245,13 +241,32 @@
 												<input type="text" class="form-control" id="pincode" name="pincode" 												required>
 											</div>
 										</div>
+										<div class="row mb-3">
+											<div class="col">
+												<label for="hobby" class="form-label">Hobbies</label>
+												<cfset hobbyValues=application.dbObj.getHobbies()>
+												<select name="hobby" class="form-select" id="hobby" multiple required>
+													<cfoutput query="hobbyValues">
+														<option value="#hobbyValues.id#">
+															#hobbyValues.hobby_name#
+														</option>
+													</cfoutput>
+												</select>
+											</div>
+										</div>
+										<div class="row mb-3">
+											<div class="col">
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" 														id="publicUser">
+													<label class="form-check-label" for="publicUser">
+														Public
+													</label>
+												</div>
+											</div>
+										</div>
 										<div class="row">
 											<div class="col">
 												<div class="user-form-buttons">
-													<button class="cancel-user-form user-btn" 
-													data-bs-dismiss="modal" >
-														Cancel
-													</button>
 													<button class="edit-details user-btn"  																name="edit-user" id="edit-cont">
 														Edit Contact
 													</button>
@@ -260,6 +275,11 @@
 													</button>
 												</div>
 											</div>
+										</div>
+										<div class="row">
+											<ul id="error-data">
+
+											</ul>
 										</div>
 									</form>
 							</div>
@@ -270,17 +290,17 @@
 			</div>
 		</div>
 		
-		<!-- Modal view -->
-		<div	class="modal" 
-			id="viewContact" 
-		>
+		<!--- Modal view --->
+		<div class="modal" id="viewContact" >
+			
+		
 			<div class="modal-dialog view-contact">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="staticBackdropLabel">CONTACT DETAILS</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body view-contact-body">
 						<div>
 							<div class="container">			
 									<div class="profile-image">
@@ -292,7 +312,8 @@
 									ADDRESS:<span id="contact-address" class="cont-info"></span><br>
 									PINCODE:<span id="contact-pincode" class="cont-info"></span><br>
 									EMAIL-ID:<span id="contact-email" class="cont-info"></span><br>
-									PHONE:<span id="contact-phone" class="cont-info"></span>
+									PHONE:<span id="contact-phone" class="cont-info"></span><br>
+									HOBBIES:<span id="user-hobbies" class="cont-info"></span>
 							</div>
 						</div>						
 
